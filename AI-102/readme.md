@@ -50,6 +50,7 @@
 - ### [Use AI responsibly with Azure AI Content Safety](https://learn.microsoft.com/en-us/training/modules/responsible-content-safety/)
     - **Content Safety**: Azure AI Content Safety is a set of advanced content moderating features that can be incorporated into your applications and services. Azure AI Content Safety is available as a resource in the Azure portal. It is designed to be used in applications and services to protect against harmful user-generated and AI-generated content. Azure AI Content Safety is available as part of Azure AI Foundry.
     - Azure AI Content Safety classifies content into four categories:
-    ![content_safety_cats](images/content_safety_cats.png)
+
+        ![content_safety_cats](images/content_safety_cats.png)
     - **Prompt shields** is a unified API to identify and block jailbreak attacks from inputs to LLMs
     - **Groundedness** detection protects against inaccurate responses in AI-generated text by LLMs.
