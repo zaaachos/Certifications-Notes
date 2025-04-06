@@ -1,5 +1,7 @@
-# Microsoft Certified: Azure AI Engineer Associate (AI-102)
-- ### Microsoft Learn [link](https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer)
+# Microsoft Certified: Azure AI Engineer Associate (AI-102) <img src="images/microsoft-certified-associate-badge.svg" style="width:60px; height:60px;"> 
+Design and implement an Azure AI solution using Azure AI services, Azure AI Search, and Azure Open AI.
+
+- ### Microsoft Learn [link](https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer) 
 
 ## [Get started with Azure AI Services](https://learn.microsoft.com/en-us/training/paths/get-started-azure-ai/)
 
@@ -54,3 +56,105 @@
         ![content_safety_cats](images/content_safety_cats.png)
     - **Prompt shields** is a unified API to identify and block jailbreak attacks from inputs to LLMs
     - **Groundedness** detection protects against inaccurate responses in AI-generated text by LLMs.
+
+
+## [Create computer vision solutions with Azure AI Vision](https://learn.microsoft.com/training/paths/create-computer-vision-solutions-azure-ai/)
+
+- ### [Analyze images](https://learn.microsoft.com/en-us/training/modules/analyze-images/)
+    - **Azure AI Vision** service is designed to help you extract information from images
+    - Use **Analyze Image** REST method or the SDK of C#/Python
+        ```python
+        from azure.ai.vision.imageanalysis import ImageAnalysisClient
+        from azure.ai.vision.imageanalysis.models import VisualFeatures
+        from azure.core.credentials import AzureKeyCredential
+
+        client = ImageAnalysisClient(
+            endpoint=os.environ["ENDPOINT"],
+            credential=AzureKeyCredential(os.environ["KEY"])
+        )
+
+        result = client.analyze(
+            image_url="<url>",
+            visual_features=[VisualFeatures.CAPTION, VisualFeatures.READ],
+            gender_neutral_caption=True,
+            language="en",
+        )
+        ```
+        - VisualFeatures.TAGS: Identifies tags about the image, including objects, scenery, setting, and actions
+        - VisualFeatures.OBJECTS: Returns the bounding box for each detected object
+        - VisualFeatures.CAPTION: Generates a caption of the image in natural language
+        - VisualFeatures.DENSE_CAPTIONS: Generates more detailed captions for the objects detected
+        - VisualFeatures.PEOPLE: Returns the bounding box for detected people
+        - VisualFeatures.SMART_CROPS: Returns the bounding box of the specified aspect ratio for the area of interest
+        - VisualFeatures.READ: Extracts readable text
+    - Result of analyze images is a JSON
+    ```json
+        {
+            "apim-request-id": "abcde-1234-5678-9012-f1g2h3i4j5k6",
+            "modelVersion": "<version>",
+            "denseCaptionsResult": {
+                "values": [
+                {
+                    "text": "a house in the woods",
+                    "confidence": 0.7055229544639587,
+                    "boundingBox": {
+                    "x": 0,
+                    "y": 0,
+                    "w": 640,
+                    "h": 640
+                    }
+                },
+                {
+                    "text": "a trailer with a door and windows",
+                    "confidence": 0.6675070524215698,
+                    "boundingBox": {
+                    "x": 214,
+                    "y": 434,
+                    "w": 154,
+                    "h": 108
+                    }
+                }
+                ]
+            },
+            "metadata": {
+                "width": 640,
+                "height": 640
+            }
+        }
+    ```
+- ### [Classify images](https://learn.microsoft.com/en-us/training/modules/classify-images/)
+    - **Azure AI Custom Vision** service enables you to build your own computer vision models for image classification or object detection Creating an Azure AI Custom Vision solution involves two tasks:
+        1. Use existing (labeled) images to train an Azure AI Custom Vision model.
+        2. Create a client application that submits new images to your model to generate predictions.
+    - To use the Azure AI Custom Vision service, you **must provision two kinds** of Azure resource:
+         1. A training resource used to train your models. This can be an Azure AI services multi-service resource or an Azure AI Custom Vision (Training) resource.
+         2. A prediction resource, used by client applications to get predictions from your model. This can be an Azure AI services multi-service resource or an Azure AI Custom Vision (Prediction) resource.
+- ### [Detect objects in images](https://learn.microsoft.com/en-us/training/modules/detect-objects-images/)
+    - The most significant difference between training an image classification model and training an object detection model is the labeling of the images with tags. While image classification requires one or more tags that apply to the whole image, object detection requires that each label consists of a tag and a region that defines the bounding box for each object in an image.
+- ### [Detect, analyze, and recognize faces](https://learn.microsoft.com/en-us/training/modules/detect-analyze-recognize-faces/)
+    - **Face** service offers more comprehensive facial analysis capabilities than the Azure AI Vision service.
+    - To detect and analyze faces with the Azure AI Vision service, call the **Analyze Image** function (SDK or equivalent REST method), specifying ***People*** as one of the visual features to be returned.
+    - To train a facial recognition model with the Face service:
+        1. Create a **Person Group** that defines the set of individuals you want to identify (for example, employees).
+        2. Add a **Person** to the **Person Group** for each individual you want to identify.
+        3. Add detected faces from multiple images to each **person**, preferably in various poses. The IDs of these faces will no longer expire after 24 hours (so they're now referred to as *persisted faces*).
+        4. Train the model.
+        
+            ![](images/Face_person_groups.png)
+
+- ### [Read Text in images and documents](https://learn.microsoft.com/en-us/training/modules/read-text-images-documents-with-computer-vision-service/)
+    - **Image Analysis Optical character recognition (OCR)**: 
+        - Use this feature for general, unstructured documents with smaller amount of text, or images that contain text.
+        - Results are returned immediately (synchronous) from a single API call.
+        - Has functionality for analyzing images past extracting text, including object detection, describing or categorizing an image, generating smart-cropped thumbnails and more.
+        - Examples include: street signs, handwritten notes, and store signs.
+    - **Document Intelligence**:
+        - Use this service to read small to large volumes of text from images and PDF documents.
+        - This service uses context and structure of the document to improve accuracy.
+        - The initial function call returns an asynchronous operation ID, which must be used in a subsequent call to retrieve the results.
+        - Examples include: receipts, articles, and invoices.
+    - If using the **REST API**, specify the feature as `read`: ```https://<endpoint>/computervision/imageanalysis:analyze?features=read&...```
+
+- ### [Analyze video](https://learn.microsoft.com/en-us/training/modules/analyze-video/)
+    - The **Azure Video Indexer** service is designed to help you extract information from videos.
+    - **Azure Video Indexer API**: `https://api.videoindexer.ai/Auth/<location>/Accounts/<accountId>/AccessToken`. You can then use your token to consume the REST API and automate video indexing tasks, creating projects, retrieving insights, and creating or deleting custom models. For example, a GET call to `https://api.videoindexer.ai/<location>/Accounts/<accountId>/Customization/CustomLogos/Logos/<logoId>?<accessToken>` REST endpoint returns the specified logo. In another example, you can send a GET request to `https://api.videoindexer.ai/<location>/Accounts/<accountId>/Videos?<accessToken>`, which returns details of videos in your account
