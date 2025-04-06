@@ -1,5 +1,7 @@
-# Microsoft Certified: Azure AI Engineer Associate (AI-102)
-- ### Microsoft Learn [link](https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer)
+# Microsoft Certified: Azure AI Engineer Associate (AI-102) <img src="images/microsoft-certified-associate-badge.svg" style="width:60px; height:60px;"> 
+Design and implement an Azure AI solution using Azure AI services, Azure AI Search, and Azure Open AI.
+
+- ### Microsoft Learn [link](https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer) 
 
 ## [Get started with Azure AI Services](https://learn.microsoft.com/en-us/training/paths/get-started-azure-ai/)
 
