@@ -1,4 +1,5 @@
-# Microsoft Certified: Azure AI Engineer Associate (AI-102) <img src="images/microsoft-certified-associate-badge.svg" style="width:60px; height:60px;"> 
+# Microsoft Certified: Azure AI Engineer Associate (AI-102) <img src="images/microsoft-certified-associate-badge.svg" style="width:60px; height:60px;">
+
 Design and implement an Azure AI solution using Azure AI services, Azure AI Search, and Azure Open AI.
 
 - ### Microsoft Learn [link](https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer) 
@@ -139,16 +140,17 @@ Design and implement an Azure AI solution using Azure AI services, Azure AI Sear
         2. Add a **Person** to the **Person Group** for each individual you want to identify.
         3. Add detected faces from multiple images to each **person**, preferably in various poses. The IDs of these faces will no longer expire after 24 hours (so they're now referred to as *persisted faces*).
         4. Train the model.
-        
-            ![](images/Face_person_groups.png)
+
+            ![Face_person_groups](images/Face_person_groups.png)
 
 - ### [Read Text in images and documents](https://learn.microsoft.com/en-us/training/modules/read-text-images-documents-with-computer-vision-service/)
-    - **Image Analysis Optical character recognition (OCR)**: 
+  
+  - **Image Analysis Optical character recognition (OCR)**:
         - Use this feature for general, unstructured documents with smaller amount of text, or images that contain text.
         - Results are returned immediately (synchronous) from a single API call.
         - Has functionality for analyzing images past extracting text, including object detection, describing or categorizing an image, generating smart-cropped thumbnails and more.
         - Examples include: street signs, handwritten notes, and store signs.
-    - **Document Intelligence**:
+  - **Document Intelligence**:
         - Use this service to read small to large volumes of text from images and PDF documents.
         - This service uses context and structure of the document to improve accuracy.
         - The initial function call returns an asynchronous operation ID, which must be used in a subsequent call to retrieve the results.
@@ -156,5 +158,166 @@ Design and implement an Azure AI solution using Azure AI services, Azure AI Sear
     - If using the **REST API**, specify the feature as `read`: ```https://<endpoint>/computervision/imageanalysis:analyze?features=read&...```
 
 - ### [Analyze video](https://learn.microsoft.com/en-us/training/modules/analyze-video/)
+
     - The **Azure Video Indexer** service is designed to help you extract information from videos.
     - **Azure Video Indexer API**: `https://api.videoindexer.ai/Auth/<location>/Accounts/<accountId>/AccessToken`. You can then use your token to consume the REST API and automate video indexing tasks, creating projects, retrieving insights, and creating or deleting custom models. For example, a GET call to `https://api.videoindexer.ai/<location>/Accounts/<accountId>/Customization/CustomLogos/Logos/<logoId>?<accessToken>` REST endpoint returns the specified logo. In another example, you can send a GET request to `https://api.videoindexer.ai/<location>/Accounts/<accountId>/Videos?<accessToken>`, which returns details of videos in your account
+
+## [Develop natural language processing solutions with Azure AI Services](https://learn.microsoft.com/en-us/training/paths/develop-language-solutions-azure-ai/)
+
+- ### [Analyze text with Azure AI Language](https://learn.microsoft.com/en-us/training/modules/analyze-text-ai-language/)
+  
+  - **Azure AI Language** is designed to help you extract information from text.
+  - **Language detection** - determining the language in which text is written.
+    - Document size under 5,120 characters.
+    - Limit per document is 1,000 items(IDs)
+    - Example request body with a list of **documents**, containing a unique **id** and the **text** to be analyzed. **countryHint** improves the prediction performance:
+    ```json
+    {
+    "kind": "LanguageDetection",
+    "parameters": {
+        "modelVersion": "latest"
+    },
+    "analysisInput":{
+        "documents":[
+              {
+                "id": "1",
+                "text": "Hello world",
+                "countryHint": "US"
+              },
+              {
+                "id": "2",
+                "text": "Bonjour tout le monde"
+              }
+        ]
+    }
+    ```
+    - If the text you provide cannot be parsed by the analyzer, the **(Unkownn)** will be returned as result ion the *name and ISO*, as well as **0** in *confidenceScore*
+  - **Key phrase extraction** - identifying important words and phrases in the text that indicate the main points.
+    - Document size under 5,120 characters.
+    - Limit per document is 1,000 items(IDs)
+    - Example REST request:
+    ```json
+    {
+        "kind": "KeyPhraseExtraction",
+        "parameters": {
+            "modelVersion": "latest"
+        },
+        "analysisInput":{
+            "documents":[
+                {
+                "id": "1",
+                "language": "en",
+                "text": "You must be the change you wish 
+                        to see in the world."
+                },
+                {
+                "id": "2",
+                "language": "en",
+                "text": "The journey of a thousand miles 
+                        begins with a single step."
+                }
+            ]
+        }
+    }
+    ```
+  - **Sentiment analysis** - quantifying how positive or negative the text is.
+    - Example REST request:
+    ```json
+    {
+        "kind": "SentimentAnalysis",
+        "parameters": {
+            "modelVersion": "latest"
+        },
+        "analysisInput": {
+            "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "Good morning!"
+            }
+            ]
+        }
+    }
+    ```
+  - **Named entity recognition** - detecting references to entities, including people, locations, time periods, organizations, and more.
+    - Entities are grouped into categories (e.g., Person, Location, DateTime, Organization, etc.)
+  - Example REST request:
+    ```json
+    {
+        "kind": "EntityRecognition",
+        "parameters": {
+            "modelVersion": "latest"
+        },
+        "analysisInput": {
+            "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "Joe went to London on Saturday"
+            }
+            ]
+        }
+    }
+    ```
+  - **Entity linking** - identifying specific entities by providing reference links to Wikipedia articles.
+    - Entity linking can be used to disambiguate entities of the same name by referencing an article in a knowledge base.
+    - Example REST request:
+    ```json
+    {
+        "kind": "EntityLinking",
+        "parameters": {
+            "modelVersion": "latest"
+        },
+        "analysisInput": {
+            "documents": [
+            {
+                "id": "1",
+                "language": "en",
+                "text": "I saw Venus shining in the sky"
+            }
+            ]
+        }
+    }
+    ```
+- ### [Create question answering solutions with Azure AI Language](https://learn.microsoft.com/en-us/training/modules/create-question-answer-solution-ai-language/)
+
+    - Azure AI Language includes a *question answering capability*, which enables you to define a **knowledge base** of question and answer pairs that can be queried using natural language input. **Knowledge base** can be created from existing sources, including:
+      - Web sites containing frequently asked question (FAQ) documentation.
+      - Files containing structured text, such as brochures or user guides.
+      - Built-in chit chat question and answer pairs that encapsulate common conversational exchanges.
+    - Comparison between *question answering client* and *language understanding*
+  
+        |  | Question answering | Language understanding |
+        |---	|---	|---	|
+        | Usage pattern 	| User submits a question, expecting an answer 	| User submits an utterance, expecting an appropriate response or action 	|
+        | Query processing 	| Service uses natural language understanding to match the question to an answer in the knowledge base 	| Service uses natural language understanding to interpret the utterance, match it to an intent, and identify entities 	|
+        | Response 	| Response is a static answer to a known question 	| Response indicates the most likely intent and referenced entities 	|
+        | Client logic 	| Client application typically presents the answer to the user 	| Client application is responsible for performing appropriate action based on the detected intent 	|
+    - To consume the published knowledge base, you can use the REST interface. The minimal request body for the function contains a question, like this:
+        ```json
+        {
+        "question": "What do I need to do to cancel a reservation?",
+        "top": 2,
+        "scoreThreshold": 20,
+        "strictFilters": [
+            {
+            "name": "category",
+            "value": "api"
+            }
+        ]
+        }
+        ```
+    - **Active learning** enhances the ability to improve responses to user questions by considering different phrasings that convey the same meaning. It helps in continuously refining answers by evaluating various ways questions might be asked. This process is enabled by default.
+
+- ### [Build a conversational language understanding model](https://learn.microsoft.com/en-us/training/modules/build-language-understanding-model/)
+  
+  - **Pre-configured features**: Summarization, Named entity recognition, Personally identifiable information (PII) detection, Key phrase extraction, Sentiment analysis, Language detection
+  - **Personally identifiable information (PII)** detection helps identify, categorize, and redact sensitive information such as email addresses, home addresses, IP addresses, names, and protected health information. For instance, an email address like "email@contoso.com" in a query can be identified and redacted to protect privacy.
+  - **Learned features** require you to label data, train, and deploy your model to make it available to use in your application. These features allow you to customize what information is predicted or extracted.
+    - Conversational language understanding (CLU): CLU does require data to be tagged by the user to teach it how to predict intents and entities accurately.
+    - Custom named entity recognition
+    - Custom text classification
+    - Question answering
+  - **Authentication**: We MUST use the **Ocp-Apim-Subscription-Key** to the header of our request, to use the Azure AI Language
+  - REST endpoint for conversational language understanding: `{ENDPOINT}/language/authoring/analyze-conversations/projects/{PROJECT-NAME}/deployments/{DEPLOYMENT-NAME}?api-version={API-VERSION}`
+  - Query your model with REST API: `{ENDPOINT}/language/:analyze-text?api-version={API-VERSION}`. Within the body of that request, you must specify the `kind` parameter, which tells the service what type of language understanding you're requesting. (For CLU: `{ENDPOINT}/language/:analyze-conversations?api-version={API-VERSION}`)
