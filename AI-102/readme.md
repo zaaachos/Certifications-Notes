@@ -357,7 +357,7 @@ Design and implement an Azure AI solution using Azure AI services, Azure AI Sear
   - **Entities** are used to add specific context to intents. For example, you might define a TurnOnDevice intent that can be applied to multiple devices, and use entities to define the different devices.
 
     | -                                         | Utterance    | Intent                                                                 | Entities |
-    | ----------------------------------------- | ------------ | ---------------------------------------------------------------------- |
+    | ----------------------------------------- | ------------ | ---------------------------------------------------------------------- | -------- |
     | What is the time?                         | GetTime      | User submits an utterance, expecting an appropriate response or action |
     | What time is it in London?                | GetTime      | Location (London)                                                      |
     | What's the weather forecast for Paris?    | GetWeather   | Location (Paris)                                                       |
@@ -464,21 +464,22 @@ Design and implement an Azure AI solution using Azure AI services, Azure AI Sear
 ## [Implement knowledge mining with Azure AI Search](https://learn.microsoft.com/en-us/training/paths/implement-knowledge-mining-azure-cognitive-search/)
 
 - ### [Create an Azure AI Search solution](https://learn.microsoft.com/en-us/training/modules/create-azure-cognitive-search-solution/)
-  
+
   - **Azure AI Search**: Azure AI Search provides a cloud-based solution for indexing and querying a wide range of data sources, and creating comprehensive and high-scale search solutions. With Azure AI Search, you can:
     - Index documents and data from a range of sources.
     - Use cognitive skills to enrich index data.
     - Store extracted insights in a knowledge store for analysis and integration.
   - **Service tiers**:
-    - **Free (F)**: Best for exploring the service or running tutorials.  
-    - **Basic (B)**: For small-scale solutions — up to 15 indexes and 5 GB of index data.  
-    - **Standard (S)**: For enterprise-scale solutions — variants (S, S2, S3) offer increasing capacity; **S3HD** focuses on fast reads with fewer indexes.  
+    - **Free (F)**: Best for exploring the service or running tutorials.
+    - **Basic (B)**: For small-scale solutions — up to 15 indexes and 5 GB of index data.
+    - **Standard (S)**: For enterprise-scale solutions — variants (S, S2, S3) offer increasing capacity; **S3HD** focuses on fast reads with fewer indexes.
     - **Storage Optimized (L)**: For large indexes — **L1** and **L2** tiers — designed for heavy storage needs but with higher query latency
-  - **Replicas**: Instances of the search service (like nodes). More replicas = better handling of concurrent queries and indexing.  
+  - **Replicas**: Instances of the search service (like nodes). More replicas = better handling of concurrent queries and indexing.
   - **Partitions**: Split an index across multiple storage locations. More partitions = improved I/O performance for queries and index rebuilds.
   - Here’s a neat summary of what you’ve shared:
   - **Data Source**  
     The origin of your searchable data. Supported types include:
+
     - Unstructured files in **Azure Blob Storage**
     - Tables in **Azure SQL Database**
     - Documents in **Cosmos DB**
@@ -486,6 +487,7 @@ Design and implement an Azure AI solution using Azure AI services, Azure AI Sear
 
   - **Skillset**  
     Defines AI-powered enrichment steps for your data before indexing. AI skills can extract:
+
     - Language detection
     - Key phrases and sentiment
     - Named entities (people, locations, organizations, etc.)
@@ -494,6 +496,7 @@ Design and implement an Azure AI solution using Azure AI services, Azure AI Sear
 
   - **Indexer**  
     Automates the process of:
+
     - Pulling data from the source.
     - Applying the **skillset**.
     - Mapping the output to **index fields**.
@@ -501,6 +504,7 @@ Design and implement an Azure AI solution using Azure AI services, Azure AI Sear
 
   - **Index**  
     The final, searchable structure — a collection of JSON documents with fields like:
+
     - `key` (unique identifier)
     - `searchable` (enables text search)
     - `filterable` (enables filtering results)
@@ -510,6 +514,7 @@ Design and implement an Azure AI solution using Azure AI services, Azure AI Sear
     - Sure! Here’s your content rewritten as a clean, icon-free **Markdown note**:
 
   - **Indexing Process**: The indexing process creates a document for each entity in the data source. An enrichment pipeline is used to build these documents by combining metadata from the source with enriched fields extracted by cognitive skills.
+
     - Initial Document Structure: At the beginning, the document contains fields directly mapped from the data source:
 
       ```bash
@@ -561,84 +566,285 @@ Design and implement an Azure AI solution using Azure AI services, Azure AI Sear
 
     - **Chaining Skills**: Skill outputs can be reused as inputs for other skills. For example, a merge skill could combine original text and image text:
 
-        ```bash
-        document
-        ├─ metadata_storage_name
-        ├─ metadata_author
-        ├─ content
-        ├─ normalized_images
-        │   ├─ image0
-        │   │   └─ Text
-        │   └─ image1
-        │       └─ Text
-        ├─ language
-        └─ merged_content
-        ```
+      ```bash
+      document
+      ├─ metadata_storage_name
+      ├─ metadata_author
+      ├─ content
+      ├─ normalized_images
+      │   ├─ image0
+      │   │   └─ Text
+      │   └─ image1
+      │       └─ Text
+      ├─ language
+      └─ merged_content
+      ```
 
     - **Mapping Fields to the Index**: At the end of the enrichment process, fields are mapped to index fields:
-      - Fields from the data source:  
+      - Fields from the data source:
         - Implicit mapping (automatic, same-name fields).
         - Explicit mapping (manual mapping or renaming).
-      - Fields generated by cognitive skills:  
+      - Fields generated by cognitive skills:
         - Explicit mapping from their position in the document to the target index field.
     - **Full text search**: Full text search describes search solutions that parse text-based document contents to find query terms. Full text search queries in Azure AI Search are based on the Lucene query syntax
-      - **Common Query Parameters:**  
-        - `search`: Terms to search for.  
-        - `queryType`: Choose between Simple or Full syntax.  
-        - `searchFields`: Specific fields to search in.  
-        - `select`: Fields to return in results.  
-        - `searchMode`:  
-          - `Any`: Returns documents matching any term.  
+      - **Common Query Parameters:**
+        - `search`: Terms to search for.
+        - `queryType`: Choose between Simple or Full syntax.
+        - `searchFields`: Specific fields to search in.
+        - `select`: Fields to return in results.
+        - `searchMode`:
+          - `Any`: Returns documents matching any term.
           - `All`: Returns only documents containing all terms.
-    - **Query Processing Stages:**  
-        1. Query parsing — Breaks down the search expression into subqueries (terms, phrases, prefixes).  
-        2. Lexical analysis — Normalizes terms: lowercasing, removing stopwords, stemming, and tokenizing.  
-        3. Document retrieval — Matches the processed query terms against indexed documents.  
-        4. Scoring — Calculates relevance based on TF/IDF (Term Frequency / Inverse Document Frequency).
+    - **Query Processing Stages:**
+      1. Query parsing — Breaks down the search expression into subqueries (terms, phrases, prefixes).
+      2. Lexical analysis — Normalizes terms: lowercasing, removing stopwords, stemming, and tokenizing.
+      3. Document retrieval — Matches the processed query terms against indexed documents.
+      4. Scoring — Calculates relevance based on TF/IDF (Term Frequency / Inverse Document Frequency).
+
   - **Filtering & Sorting**:
+
     - **Filtering**  
-        You can refine results by:
-      - Simple Search: ```search=London+author='Reviewer' queryType=Simple```
+       You can refine results by:
+
+      - Simple Search: `search=London+author='Reviewer' queryType=Simple`
       - OData Filter:  
-          ```search=London```  
-          ```$filter=author eq 'Reviewer'```
-          ```queryType=Full```  
-          _(OData filters are case-sensitive!)_
+         `search=London`  
+         `$filter=author eq 'Reviewer'`
+        `queryType=Full`  
+         _(OData filters are case-sensitive!)_
 
     - **Facets**  
-        Facets show available filter options to users.  
-        Example:  
-        ```search=*```  
-        ```facet=author```  
-        → UI shows available `author` values to filter.
+       Facets show available filter options to users.  
+       Example:  
+       `search=*`  
+       `facet=author`  
+       → UI shows available `author` values to filter.
 
     - **Sorting**  
-        Default = by **relevance score**.  
-        Custom order:  
-        ```$orderby=last_modified desc```  
-        _(descending by last modified date)_
-    Absolutely — here’s a clear, minimal and student-friendly summary for your notes:
+       Default = by **relevance score**.  
+       Custom order:  
+       `$orderby=last_modified desc`  
+       _(descending by last modified date)_
+      Absolutely — here’s a clear, minimal and student-friendly summary for your notes:
 
   - **Enhancing Azure AI Search Index**
 
     - **Search-as-you-type**  
-    → Add a `suggester` to enable:  
-    `Suggestions` (results list while typing)  
-    `Autocomplete` (auto-complete terms).
+      → Add a `suggester` to enable:  
+      `Suggestions` (results list while typing)  
+      `Autocomplete` (auto-complete terms).
 
     - **Custom Scoring & Boosting**  
-    → Use `Scoring Profiles` to:  
-    Prioritize results from specific fields or boost by field values (e.g. last modified, size).
+      → Use `Scoring Profiles` to:  
+      Prioritize results from specific fields or boost by field values (e.g. last modified, size).
 
     - **Synonyms**  
-    → Define `Synonym Maps` so searches return related terms.  
-    Example: `"UK"` ↔ `"United Kingdom"` ↔ `"Great Britain"`.
+      → Define `Synonym Maps` so searches return related terms.  
+      Example: `"UK"` ↔ `"United Kingdom"` ↔ `"Great Britain"`.
 
 - ### [Create a custom skill for Azure AI Search](https://learn.microsoft.com/en-us/training/modules/create-azure-ai-custom-skill/)
 
+  - **Input Schema**: Structure: JSON with records.
+    - Components:
+      recordId: Unique ID.
+      data: Inputs.
+  - **Output Schema**: Structure: JSON reflecting input. The output value can contain any JSON structure, accommodating complex types.
+    - Components:
+      recordId: Matches input ID.
+      data: Results.
+      errors: List of errors.
+      warnings: List of warnings
+  - **Adding a Custom Skill**
+
+    - Skill Definition:
+
+      - URI: Web API endpoint.
+      - Context: Where to apply the skill.
+      - Inputs: From document fields.
+      - Outputs: New field for results.
+
+      - Example
+
+        ```json
+        {
+          "skills": [
+            {
+              "@odata.type": "#Microsoft.Skills.Custom.WebApiSkill",
+              "description": "<custom skill description>",
+              "uri": "https://<web_api_endpoint>?<params>",
+              "httpHeaders": {
+                "<header_name>": "<header_value>"
+              },
+              "context": "/document/<where_to_apply_skill>",
+              "inputs": [
+                {
+                  "name": "<input1_name>",
+                  "source": "/document/<path_to_input_field>"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "<output1_name>",
+                  "targetName": "<optional_field_name>"
+                }
+              ]
+            }
+          ]
+        }
+        ```
+
+  - **Custom text classification skill**
+    ![alt text](images/custom_text_skill.png)
+
 - ### [Create a knowledge store with Azure AI Search](https://learn.microsoft.com/en-us/training/modules/create-knowledge-store-azure-cognitive-search/)
 
+  - **Knowledge stores**: A knowledge store in Azure AI Search allows you to persist enriched data from your indexing pipeline for various uses:
+    - Index: Collection of JSON objects representing indexed records.
+    - Knowledge Store: Stores projections of enriched data as JSON objects, tables, or image files. To define the knowledge store and the projections you want to create in it, you must create a _knowledgeStore_ object in the skillset that specifies the _Azure Storage connection string_ for the storage account where you want to create projections, and the definitions of the projections themselves.
+  - **Projections**
+    - **Projections**: Data fields that are stored in a knowledge store, based on document structures generated by the enrichment pipeline during indexing.
+    - **Incremental Document Building**: Each skill in the skillset iteratively builds a JSON representation of enriched data for documents being indexed.
+  - **Shaper Skill**
+    - **Purpose**: Simplifies complex schema generated during indexing by creating a new field containing a simpler structure for fields to be mapped to projections.
+    - **Usage**: Commonly used to map field values to projections in a knowledge store.
+
 - ### [Implement advanced search features in Azure AI Search](https://learn.microsoft.com/en-us/training/modules/implement-advanced-search-features-azure-cognitive-search/)
+
+  - **Search an Index**
+    ![alt text](images/query_processing.png)
+
+  - **Term boosting**: `^` for example Description:luxury OR Category:luxury^3 would give hotels with the category luxury a higher score than luxury in the description.
+  - Azure AI Search uses the **BM25 similarity ranking algorithm**. The algorithm scores documents based on the search terms used.
+  - **Scoring functions**
+    ![alt text](images/scoring_funcs.png)
+  - **Analyzers in AI Search**
+
+    - **Purpose of Analyzers**:
+      - Process text to build a useful index for search.
+      - Tasks include breaking text into words, removing stopwords, and reducing words to their root form.
+    - **Default Analyzer**:
+      - If unspecified, the default Lucene analyzer is used.
+      - Suitable for most fields and supports many languages.
+    - **Types of Built-in Analyzers**:
+      1. **Language Analyzers:**
+         - For advanced language-specific capabilities.
+         - Microsoft provides 50 language-specific analyzers.
+      2. **Specialized Analyzers:**
+         - Language-agnostic, used for fields like zip codes or product IDs.
+         - Example: PatternAnalyzer for matching token separators using regular expressions.
+    - **Custom Analyzers**:
+      - Created when built-in analyzers do not meet specific needs.
+      - Components of a custom analyzer:
+        1. **Character Filters:**
+           - Pre-process text before tokenization.
+           - Types: `html_strip`, `mapping`, `pattern_replace`.
+        2. **Tokenizers:**
+           - Divide text into tokens.
+           - Types: `classic`, `keyword`, `lowercase`, `microsoft_language_tokenizer`, `pattern`, `whitespace`.
+        3. **Token Filters:**
+           - Further process tokens (e.g., remove stopwords, trim punctuation).
+           - Types: `arabic_normalization`, `apostrophe`, `classic`, `keep`, `length`, `trim`.
+    - **Creating a Custom Analyzer**:
+
+      - Define using JSON code.
+      - Include in the `analyzers` section during index design.
+      - Example structure:
+
+        ```json
+        "analyzers": [
+            {
+                "name": "ContosoAnalyzer",
+                "@odata.type": "#Microsoft.Azure.Search.CustomAnalyzer",
+                "charFilters": ["WebContentRemover"],
+                "tokenizer": "IcelandicTokenizer",
+                "tokenFilters": ["ApostropheFilter"]
+            }
+        ],
+        "charFilters": [
+            {
+                "name": "WebContentRemover",
+                "@odata.type": "#html_strip"
+            }
+        ],
+        "tokenizers": [
+            {
+                "name": "IcelandicTokenizer",
+                "@odata.type": "#microsoft_language_tokenizer",
+                "language": "icelandic",
+                "isSearchTokenizer": false
+            }
+        ],
+        "tokenFilters": [
+            {
+                "name": "ApostropheFilter",
+                "@odata.type": "#apostrophe"
+            }
+        ]
+        ```
+
+    - **Testing a Custom Analyzer**:
+
+      - Use REST API’s Analyze Text function.
+      - Example REST request:
+
+        ```http
+        POST https://<search service name>.search.windows.net/indexes/<index name>/analyze?api-version=<api-version>
+        Content-Type: application/json
+        api-key: <api key>
+        ```
+
+      - JSON body:
+
+        ```json
+        {
+          "text": "Test text to analyze.",
+          "analyzer": "<analyzer name>"
+        }
+        ```
+
+    - **Using a Custom Analyzer for a Field**:
+
+      - Configure in the index definition.
+      - Example for using the same analyzer for indexing and searching:
+
+        ```json
+        "fields": [
+            {
+                "name": "IcelandicDescription",
+                "type": "Edm.String",
+                "retrievable": true,
+                "searchable": true,
+                "analyzer": "ContosoAnalyzer",
+                "indexAnalyzer": null,
+                "searchAnalyzer": null
+            }
+        ]
+        ```
+
+      - Example for using different analyzers for indexing and searching:
+
+        ```json
+        "fields": [
+            {
+                "name": "IcelandicDescription",
+                "type": "Edm.String",
+                "retrievable": true,
+                "searchable": true,
+                "analyzer": null,
+                "indexAnalyzer": "ContosoIndexAnalyzer",
+                "searchAnalyzer": "ContosoSearchAnalyzer"
+            }
+        ]
+        ```
+
+  - **Geo-Spatial Search**: Search for items associated with a geographical location. For example, they might want to find the nearest coffee shop to their location. To help you compare locations on the Earth's surface, AI Search includes geo-spatial functions that you can call in queries.
+    - **geo.distance**. This function returns the distance in a straight line across the Earth's surface from the point you specify to the location of the search result. Returns the distance between them in kilometers.
+      - `search=(Description:luxury OR Category:luxury)$filter=geo.distance(location, geography'POINT(-122.131577 47.678581)') le 5&$select=HotelId, HotelName, Category, Tags, Description&$count=tru` - This query returns all the luxury hotels in the index within five kilometers of the Eiffel Tower.
+    - **geo.intersects**. This function returns true if the location of a search result is inside a polygon that you specify.
+    - To use these functions, make sure that your index includes the location for results. Location fields should have the datatype Edm.GeographyPoint and store the latitude and longitude.
+      - `search=(Description:luxury OR Category:luxury) AND geo.intersects(Location, geography'POLYGON((2.32 48.91, 2.27 48.91, 2.27 48.60, 2.32 48.60, 2.32 48.91))')&$select=HotelId, HotelName, Category, Tags, Description&$count=true` - This query returns all luxury hotels within a square around the Eiffel Tower
+    - ![alt text](images/ai_search_qna.png)
+    -
 
 - ### [Search data outside the Azure platform in Azure AI Search using Azure Data Factory](https://learn.microsoft.com/en-us/training/modules/search-data-outside-azure-platform-cognitive-search/)
 
