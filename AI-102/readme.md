@@ -356,15 +356,15 @@ Design and implement an Azure AI solution using Azure AI services, Azure AI Sear
       - Utterance: "What time is it?"
   - **Entities** are used to add specific context to intents. For example, you might define a TurnOnDevice intent that can be applied to multiple devices, and use entities to define the different devices.
 
-    - | Utterance                                 | Intent       | Entities                                                               |
-      | ----------------------------------------- | ------------ | ---------------------------------------------------------------------- |
-      | What is the time?                         | GetTime      | User submits an utterance, expecting an appropriate response or action |
-      | What time is it in London?                | GetTime      | Location (London)                                                      |
-      | What's the weather forecast for Paris?    | GetWeather   | Location (Paris)                                                       |
-      | Will I need an umbrella tonight?          | GetWeather   | Time (tonight)                                                         |
-      | What's the forecast for Seattle tomorrow? | GetWeather   | Location (Seattle), Time (tomorrow)                                    |
-      | Turn the light on.                        | TurnOnDevice | Device (light)                                                         |
-      | Switch on the fan.                        | TurnOnDevice | Device (fan)                                                           |
+    | -                                         | Utterance    | Intent                                                                 | Entities |
+    | ----------------------------------------- | ------------ | ---------------------------------------------------------------------- |
+    | What is the time?                         | GetTime      | User submits an utterance, expecting an appropriate response or action |
+    | What time is it in London?                | GetTime      | Location (London)                                                      |
+    | What's the weather forecast for Paris?    | GetWeather   | Location (Paris)                                                       |
+    | Will I need an umbrella tonight?          | GetWeather   | Time (tonight)                                                         |
+    | What's the forecast for Seattle tomorrow? | GetWeather   | Location (Seattle), Time (tomorrow)                                    |
+    | Turn the light on.                        | TurnOnDevice | Device (light)                                                         |
+    | Switch on the fan.                        | TurnOnDevice | Device (fan)                                                           |
 
     - You can have up to five **prebuilt components per entity**. Using prebuilt model elements can significantly reduce the time it takes to develop a conversational language understanding solution.
 
@@ -460,3 +460,190 @@ Design and implement an Azure AI solution using Azure AI services, Azure AI Sear
     - **Event-based synthesis**: When you want to perform 1:1 translation (translating from one source language into a single target language).
     - **Manual synthesis**: Manual synthesis is an alternative approach to event-based synthesis that doesn't require you to implement an event handler. You can use manual synthesis to generate audio translations for one or more target languages.
       ![alt text](images/questions_trans_speech.png)
+
+## [Implement knowledge mining with Azure AI Search](https://learn.microsoft.com/en-us/training/paths/implement-knowledge-mining-azure-cognitive-search/)
+
+- ### [Create an Azure AI Search solution](https://learn.microsoft.com/en-us/training/modules/create-azure-cognitive-search-solution/)
+  
+  - **Azure AI Search**: Azure AI Search provides a cloud-based solution for indexing and querying a wide range of data sources, and creating comprehensive and high-scale search solutions. With Azure AI Search, you can:
+    - Index documents and data from a range of sources.
+    - Use cognitive skills to enrich index data.
+    - Store extracted insights in a knowledge store for analysis and integration.
+  - **Service tiers**:
+    - **Free (F)**: Best for exploring the service or running tutorials.  
+    - **Basic (B)**: For small-scale solutions — up to 15 indexes and 5 GB of index data.  
+    - **Standard (S)**: For enterprise-scale solutions — variants (S, S2, S3) offer increasing capacity; **S3HD** focuses on fast reads with fewer indexes.  
+    - **Storage Optimized (L)**: For large indexes — **L1** and **L2** tiers — designed for heavy storage needs but with higher query latency
+  - **Replicas**: Instances of the search service (like nodes). More replicas = better handling of concurrent queries and indexing.  
+  - **Partitions**: Split an index across multiple storage locations. More partitions = improved I/O performance for queries and index rebuilds.
+  - Here’s a neat summary of what you’ve shared:
+  - **Data Source**  
+    The origin of your searchable data. Supported types include:
+    - Unstructured files in **Azure Blob Storage**
+    - Tables in **Azure SQL Database**
+    - Documents in **Cosmos DB**
+    - Or, **JSON data** pushed directly into the index.
+
+  - **Skillset**  
+    Defines AI-powered enrichment steps for your data before indexing. AI skills can extract:
+    - Language detection
+    - Key phrases and sentiment
+    - Named entities (people, locations, organizations, etc.)
+    - Image insights (descriptions, OCR text)
+    - Custom AI logic
+
+  - **Indexer**  
+    Automates the process of:
+    - Pulling data from the source.
+    - Applying the **skillset**.
+    - Mapping the output to **index fields**.
+    - Can run on schedule or on-demand.
+
+  - **Index**  
+    The final, searchable structure — a collection of JSON documents with fields like:
+    - `key` (unique identifier)
+    - `searchable` (enables text search)
+    - `filterable` (enables filtering results)
+    - `sortable` (enables sorting)
+    - `facetable` (supports UI facets for filtering)
+    - `retrievable` (defines if the field is returned in queries)
+    - Sure! Here’s your content rewritten as a clean, icon-free **Markdown note**:
+
+  - **Indexing Process**: The indexing process creates a document for each entity in the data source. An enrichment pipeline is used to build these documents by combining metadata from the source with enriched fields extracted by cognitive skills.
+    - Initial Document Structure: At the beginning, the document contains fields directly mapped from the data source:
+
+      ```bash
+      document
+      ├─ metadata_storage_name
+      ├─ metadata_author
+      └─ content
+      ```
+
+    - **Handling Images**: If the data source contains images, the indexer can extract them and place them into a `normalized_images` collection:
+
+      ```bash
+      document
+      ├─ metadata_storage_name
+      ├─ metadata_author
+      ├─ content
+      └─ normalized_images
+          ├─ image0
+          └─ image1
+      ```
+
+    - **Skill Application**: Each cognitive skill adds new fields to the document. For example, a language detection skill might add:
+
+      ```bash
+      document
+      ├─ metadata_storage_name
+      ├─ metadata_author
+      ├─ content
+      ├─ normalized_images
+      │   ├─ image0
+      │   └─ image1
+      └─ language
+      ```
+
+      If using an OCR skill on the images, the structure becomes:
+
+      ```bash
+      document
+      ├─ metadata_storage_name
+      ├─ metadata_author
+      ├─ content
+      ├─ normalized_images
+      │   ├─ image0
+      │   │   └─ Text
+      │   └─ image1
+      │       └─ Text
+      └─ language
+      ```
+
+    - **Chaining Skills**: Skill outputs can be reused as inputs for other skills. For example, a merge skill could combine original text and image text:
+
+        ```bash
+        document
+        ├─ metadata_storage_name
+        ├─ metadata_author
+        ├─ content
+        ├─ normalized_images
+        │   ├─ image0
+        │   │   └─ Text
+        │   └─ image1
+        │       └─ Text
+        ├─ language
+        └─ merged_content
+        ```
+
+    - **Mapping Fields to the Index**: At the end of the enrichment process, fields are mapped to index fields:
+      - Fields from the data source:  
+        - Implicit mapping (automatic, same-name fields).
+        - Explicit mapping (manual mapping or renaming).
+      - Fields generated by cognitive skills:  
+        - Explicit mapping from their position in the document to the target index field.
+    - **Full text search**: Full text search describes search solutions that parse text-based document contents to find query terms. Full text search queries in Azure AI Search are based on the Lucene query syntax
+      - **Common Query Parameters:**  
+        - `search`: Terms to search for.  
+        - `queryType`: Choose between Simple or Full syntax.  
+        - `searchFields`: Specific fields to search in.  
+        - `select`: Fields to return in results.  
+        - `searchMode`:  
+          - `Any`: Returns documents matching any term.  
+          - `All`: Returns only documents containing all terms.
+    - **Query Processing Stages:**  
+        1. Query parsing — Breaks down the search expression into subqueries (terms, phrases, prefixes).  
+        2. Lexical analysis — Normalizes terms: lowercasing, removing stopwords, stemming, and tokenizing.  
+        3. Document retrieval — Matches the processed query terms against indexed documents.  
+        4. Scoring — Calculates relevance based on TF/IDF (Term Frequency / Inverse Document Frequency).
+  - **Filtering & Sorting**:
+    - **Filtering**  
+        You can refine results by:
+      - Simple Search: ```search=London+author='Reviewer' queryType=Simple```
+      - OData Filter:  
+          ```search=London```  
+          ```$filter=author eq 'Reviewer'```
+          ```queryType=Full```  
+          _(OData filters are case-sensitive!)_
+
+    - **Facets**  
+        Facets show available filter options to users.  
+        Example:  
+        ```search=*```  
+        ```facet=author```  
+        → UI shows available `author` values to filter.
+
+    - **Sorting**  
+        Default = by **relevance score**.  
+        Custom order:  
+        ```$orderby=last_modified desc```  
+        _(descending by last modified date)_
+    Absolutely — here’s a clear, minimal and student-friendly summary for your notes:
+
+  - **Enhancing Azure AI Search Index**
+
+    - **Search-as-you-type**  
+    → Add a `suggester` to enable:  
+    `Suggestions` (results list while typing)  
+    `Autocomplete` (auto-complete terms).
+
+    - **Custom Scoring & Boosting**  
+    → Use `Scoring Profiles` to:  
+    Prioritize results from specific fields or boost by field values (e.g. last modified, size).
+
+    - **Synonyms**  
+    → Define `Synonym Maps` so searches return related terms.  
+    Example: `"UK"` ↔ `"United Kingdom"` ↔ `"Great Britain"`.
+
+- ### [Create a custom skill for Azure AI Search](https://learn.microsoft.com/en-us/training/modules/create-azure-ai-custom-skill/)
+
+- ### [Create a knowledge store with Azure AI Search](https://learn.microsoft.com/en-us/training/modules/create-knowledge-store-azure-cognitive-search/)
+
+- ### [Implement advanced search features in Azure AI Search](https://learn.microsoft.com/en-us/training/modules/implement-advanced-search-features-azure-cognitive-search/)
+
+- ### [Search data outside the Azure platform in Azure AI Search using Azure Data Factory](https://learn.microsoft.com/en-us/training/modules/search-data-outside-azure-platform-cognitive-search/)
+
+- ### [Maintain an Azure AI Search solution](https://learn.microsoft.com/en-us/training/modules/maintain-azure-cognitive-search-solution/)
+
+- ### [Perform search reranking with semantic ranking in Azure AI Search](https://learn.microsoft.com/en-us/training/modules/use-semantic-search/)
+
+- ### [Perform vector search and retrieval in Azure AI Search](https://learn.microsoft.com/en-us/training/modules/improve-search-results-vector-search/)
