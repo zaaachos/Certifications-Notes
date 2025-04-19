@@ -843,13 +843,59 @@ Design and implement an Azure AI solution using Azure AI services, Azure AI Sear
     - **geo.intersects**. This function returns true if the location of a search result is inside a polygon that you specify.
     - To use these functions, make sure that your index includes the location for results. Location fields should have the datatype Edm.GeographyPoint and store the latitude and longitude.
       - `search=(Description:luxury OR Category:luxury) AND geo.intersects(Location, geography'POLYGON((2.32 48.91, 2.27 48.91, 2.27 48.60, 2.32 48.60, 2.32 48.91))')&$select=HotelId, HotelName, Category, Tags, Description&$count=true` - This query returns all luxury hotels within a square around the Eiffel Tower
-    - ![alt text](images/ai_search_qna.png)
-    -
+     ![alt text](images/ai_search_qna.png)
 
 - ### [Search data outside the Azure platform in Azure AI Search using Azure Data Factory](https://learn.microsoft.com/en-us/training/modules/search-data-outside-azure-platform-cognitive-search/)
 
+  - **Azure Data Factory (ADF) Pipeline → Azure AI Search Index**:
+      1. Create an Azure AI Search **index** (define fields).  
+      2. Create an ADF **pipeline** with a **Copy Data** step.  
+      3. Set **Source** (data location).  
+      4. Set **Sink** (search index).  
+      5. **Map fields** from source → index.  
+      6. **Run the pipeline** to load data.
+  - **Azure AI Search data type**
+    - String
+    - Int32
+    - Int64
+    - Double
+    - Boolean
+    - DataTimeOffset
+  ![alt text](images/adf_sols.png)
+
 - ### [Maintain an Azure AI Search solution](https://learn.microsoft.com/en-us/training/modules/maintain-azure-cognitive-search-solution/)
+
+  - **Data encryption**: Data in transit is encrypted using the standard _HTTPS TLS 1.3 encryption over port 443_.
+  - **Secure inbound traffic**:
+    ![alt text](images/secure_inbound_traffic.png)
+  - The default option when you create your ACS is **key-based authentication**. There are two different kinds of keys:
+    - **Admin keys** - grant your write permissions and the right to query system information (maximum of 2 admin keys can be created per search service)
+    - **Query keys** - grant read permissions and are used by your users or apps to query indexes (maximum of 50 query keys can be created per search service)
+  - **Source specific Role-based access control (RBAc)**:
+    1. **Search Service Contributor** - A role for your search service administrators (the same access as the Contributor role above) and the content (indexes, indexers, data sources, and skillsets).
+    2. **Search Index Data Contributor** - A role for developers or index owners who will import, refresh, or query the documents collection of an index.
+    3. **Search Index Data Reader** - Read-only access role for apps and users who only need to run queries
+  - **Search throttled** : 503 HTTP Response
+  - **Index throttled** : 207 HTTP Response
+  - T**ips to reduce the cost of your search solution**:
+    - Same Region → Keep resources in one region to lower bandwidth costs
+    - Scale Smart → Scale up during indexing, scale down for regular queries
+    - Azure Web App → Use as front-end to avoid external traffic costs
+    - Enrichment Caching → Enable if using AI enrichment on blobs.
+  ![alt text](images/maintain_azure_search_sols.png)
 
 - ### [Perform search reranking with semantic ranking in Azure AI Search](https://learn.microsoft.com/en-us/training/modules/use-semantic-search/)
 
+  - **Semantic ranking**: Semantic ranking is a capability within Azure AI Search that aims to improve the ranking of search results. Semantic ranking improves the ranking of search results by using language understanding to more accurately match the context of the original query.
+  - **BM25 ranking function**: By default, Azure AI Search uses the BM25 ranking function, which scores results based on term frequency — the more a term appears, the higher the rank. While effective for many cases, BM25 ignores query semantics, so using Semantic Ranking can further improve relevance by understanding context, not just keywords.
+  - **Semantic captions**: extract summary sentences from the document verbatim and highlight the most relevant text in the summary sentences.
+  - **How Semantic Ranking Works**:
+    - **Step 1:** Takes the top **50 BM25-ranked results**.  
+    - **Step 2:** Splits results into fields, converts to text, trims to **256 unique tokens**.  
+    - **Step 3:** Uses **Machine Reading Comprehension (MRC) models** to extract the most relevant phrases (semantic captions) and, optionally, direct answers.  
+    - **Step 4:** Reranks results based on **semantic relevance**, not just keyword matching.
+  - **Pricing**: Up to 1000 semantic ranking queries a month free.
+
 - ### [Perform vector search and retrieval in Azure AI Search](https://learn.microsoft.com/en-us/training/modules/improve-search-results-vector-search/)
+
+  - **Vector search**: Vector search is a capability available in AI Search used to index, store and retrieve vector embedding from a search index. You can use it to power applications implementing the Retrieval Augmented Generation (RAG) architecture, similarity and multi-modal searches or recommendation engines.
