@@ -899,3 +899,180 @@ Design and implement an Azure AI solution using Azure AI services, Azure AI Sear
 - ### [Perform vector search and retrieval in Azure AI Search](https://learn.microsoft.com/en-us/training/modules/improve-search-results-vector-search/)
 
   - **Vector search**: Vector search is a capability available in AI Search used to index, store and retrieve vector embedding from a search index. You can use it to power applications implementing the Retrieval Augmented Generation (RAG) architecture, similarity and multi-modal searches or recommendation engines.
+
+---
+  
+## [Develop solutions with Azure AI Document Intelligence](https://learn.microsoft.com/en-us/training/paths/extract-data-from-forms-document-intelligence/)
+
+- ### [Plan an Azure AI Document Intelligence solution](https://learn.microsoft.com/en-us/training/modules/plan-form-recognizer-solution/)
+
+  - **Azure AI Document Intelligence**: An Azure AI service that automates data extraction from forms and documents, reducing manual entry, cost, and human error.
+  - **Models:**  
+    1. **Prebuilt models** for common document types (Invoice, Receipt, ID, Business Card, W-2, Health Insurance Card, etc.)  
+    2. **General models** for unstructured forms:  
+       - Read - Use this model to extract words and lines from both printed and hand-written documents. It also detects the language used in the document.
+       - Layout - Use this model to extract text, tables, and structure information from forms. It can also recognize selection marks such as check boxes and radio buttons.
+       - General Document - Use this model to extract key-value pairs and tables in your documents.
+    3. **Custom models** — train with your own forms for high accuracy.  
+    4. **Composed models** — combine multiple custom models into one for automatic form type detection.
+
+  - **Tools:** Use **Document Intelligence Studio** (no-code) for testing models and analyzing data.
+
+  - **When to use:**  
+    - Use **Azure AI Vision (OCR)** for plain text extraction.  
+    - Use **Document Intelligence** for structured data (key-value pairs, tables, fields).
+
+- ### [Use prebuilt Document intelligence models](https://learn.microsoft.com/en-us/training/modules/use-prebuilt-form-recognizer-models/)
+
+  - **When to use prebuilt models**:
+    - Document type = common & supported → use prebuilt.
+    - Document type = unique/custom → train a custom model.
+  - **File Requirements**:
+    - Supported formats: JPEG, PNG, BMP, TIFF, PDF.
+    - Size: <500 MB (Standard) / <4 MB (Free).
+    - Image dimensions: between 50 x 50 pixels and 10,000 x 10,000 pixels.
+    - Password-protected PDFs are not supported.
+    - Total size of the training data: 500 pages or less.
+  - **ID document model**: Only the biographical pages of passports can be analyzed. Visas and other travel documents are not supported.
+   ![alt text](images/document_int_sol.png)
+
+- ### [Extract data from forms with Azure Document intelligence](https://learn.microsoft.com/en-us/training/modules/work-form-recognizer/)
+
+  - **OCR** captures document structure by creating bounding boxes around detected objects in an image. The locations of the bounding boxes are recorded as coordinates in relation to the rest of the page. **Azure Document Intelligence** services return bounding box data and other information in a structured form with the relationships from the original file.
+    ![alt text](images/bounding_boxes.png)
+  - **Train custom models**:
+      ![alt text](images/train_custom_model.png)
+      1. **Prepare Data**: Store sample forms + `ocr.json` (generated using Azure Document Intelligence's **Analyze document** function), `fields.json`, and `labels.json` in **Azure Blob Storage**.
+      2. **Train the Model**:
+         1. Generate a SAS URL.
+         2. Train using the Build model API or Document Intelligence Studio.
+      3. **Model Types**:
+         1. Custom Template Model → Best for structured documents (fast, 100+ languages).
+         2. Custom Neural Model → Best for semi-structured or unstructured documents (deep learning, more flexible).
+
+- ### [Create a composed Document intelligence model](https://learn.microsoft.com/en-us/training/modules/create-composed-form-recognizer-model/)
+
+  - **Composed Model**: lets you combine multiple custom models (template or neural) into one.
+  - Template and neural models can’t mix in one composed model.
+  - **Maximum number** of custom models: 100
+  - `docType`: A property in result JSON, to determine the constituent custom model that was used to analyze each document.
+
+---
+
+## [Develop Generative AI solutions with Azure OpenAI Service](https://learn.microsoft.com/en-us/training/paths/develop-ai-solutions-azure-openai/)
+
+- ### [Develop applications with Azure OpenAI Service](https://learn.microsoft.com/en-us/training/modules/develop-applications-openai/)
+
+  - **Role-based Access Control**:
+    1. **Cognitive Services OpenAI User**: This role allows viewing resources and using the chat playground.
+    2. **Cognitive Services OpenAI Contributor**: This role allows the user to create new deployments.
+  - **Azure OpenAI Model Types**:
+    1. **GPT-4 models** — Latest generation; great for natural language and code generation.
+    2. **GPT-3.5 models** — Good for chat and text generation, especially `gpt-35-turbo`.
+    3. **Embeddings models** — Convert text into numeric vectors for tasks like similarity comparisons.
+    4. **DALL-E models** — Generate images from text prompts (currently in preview).
+    5. **Whisper models** — Convert speech to text.
+    6. **Text to Speech models** — Convert text into spoken audio.
+
+  - **Completion Quality Factors**
+    - **Prompt Engineering** — Clearer, better prompts = better responses.
+    - **Model Parameters** — Adjust things like temperature, top_p, max tokens.
+    - **Fine-Tuning** — Train a custom model to better suit your data.
+  - **Available endpoints**:
+    - **Completion** - model takes an input prompt, and generates one or more predicted completions.
+    - **ChatCompletion** - model takes input in the form of a chat conversation (where roles are specified with the message they send), and the next chat completion is generated.
+    - **Embeddings** - model takes input and returns a vector representation of that input.
+  - Example of **ChatCompletion** defined roles:
+
+    ```json
+        {"role": "system", "content": "You are a helpful assistant, teaching people about AI."},
+        {"role": "user", "content": "Does Azure OpenAI support multiple languages?"},
+        {"role": "assistant", "content": "Yes, Azure OpenAI supports several languages, and can translate between them."},
+        {"role": "user", "content": "Do other Azure AI Services support translation too?"}
+      ```
+
+    - `system` — sets behavior/context.
+    - `user` — user input.
+    - `assistant` — model’s reply.
+  - Calling Azure OpenAI:
+    - **YOUR_ENDPOINT_NAME** (from Azure portal).
+    - **YOUR_API_KEY** (from Azure portal).
+    - **YOUR_DEPLOYMENT_NAME** (your deployed model name).
+  - Python Example:
+
+    ```python
+    from openai import AzureOpenAI
+
+    client = AzureOpenAI(
+        azure_endpoint = '<YOUR_ENDPOINT_NAME>',
+        api_key = '<YOUR_API_KEY>',  
+        api_version = "20xx-xx-xx"
+    )
+
+    response = client.chat.completions.create(
+        model = '<YOUR_DEPLOYMENT_NAME>',
+        messages = [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "What is Azure OpenAI?"}
+        ]
+    )
+
+    print(response.choices[0].message.content)
+      ```
+
+  - **Prompt engineering**: Prompt engineering is the practice of crafting clear, specific, and structured prompts to get better and more useful responses from AI models. Well-designed prompts help the model understand context and produce higher-quality, more accurate outputs. It reduces bias and helps hummans better understand how the model generates responses (critical for sensitive fields like Healthcare, Legal, etc.).
+  - **Techniques for Writing Effective Prompts**:
+    1. _**Provide clear instructions**_: Be as specific as possible. The more detail you give (structure, tone, content, format), the better the result.
+    2. _**Format of Instructions**_: Recency bias can affect models, where information located towards the end of the prompt can have more influence on the output than information at the beginning. You may get better responses by repeating the instructions at the end of the prompt and assessing how that affects the generated response.
+    3. _**Primary, Supporting & Grounding Content**_:
+       1. Primary Content: The main thing the model will work on (e.g., article to summarize).
+       2. Supporting Content: Additional info to shape the response (e.g., “I’m interested in AI topics”).
+       3. Grounding Content: Reference material to ensure accurate, reliable answers (e.g., an unpublished document, FAQ, or company manual).
+    4. _**Cues**_: Starting phrases or examples that guide the model’s output. Especially helpful in code generation, writing, and list formatting.
+  - **Few-shot learning prompting**: providing examples in the prompt to "teach" the model the expected pattern.
+  - **Breaking Down Complex Tasks prompting**: Instead of asking one big question, break it into smaller steps.
+  - **Chain of thought prompting**: Ask the model to "show its work" by walking through its reasoning step-by-step. Example Prompt: `"What sport is easiest to learn but hardest to master? Give a step-by-step approach of your thoughts, ending in your answer."`
+
+- ### [Implement Retrieval Augmented Generation (RAG) with Azure OpenAI Service](https://learn.microsoft.com/en-us/training/modules/use-own-data-azure-openai/)
+
+  - **Retrieval-Augmented Generation (RAG)**: RAG enables Azure OpenAI to retrieve specific data from external sources (like your own data) to augment the model's responses. The model can combine its pretrained knowledge with relevant, external data to give more grounded, accurate responses.
+  - **How RAG Works with Azure OpenAI:**
+    1. **Receive User Prompt**: The user asks a question or provides input.
+    2. **Determine Relevant Content**: Azure AI determines the content and intent of the user’s prompt.
+    3. **Query the Search Index**: The relevant content is used to search your data (hosted on Azure AI Search).
+    4. **Insert Search Results into Prompt**: The retrieved data (search result chunks) are added to the user prompt.
+    5. **Send Complete Prompt to OpenAI Model**: The complete prompt with the added context is sent to the Azure OpenAI model.
+    6. **Return Response**: The model generates a response based on the input prompt and the retrieved information. It also provides data references if available.
+  - **RAG Advantages:**
+    - **Efficiency**: No need for time-intensive fine-tuning.
+    - **Up-to-Date Information**: Can pull in real-time or newly updated data from your custom sources.
+    - **Flexibility**: Models don't need to be retrained, just connected to an indexed data source.
+    - **Simplified Integration**: Easy to connect your own data using Azure AI Search.
+  - **Supported data:**  `.md`, `.txt`, `.html`, `.pdf`, and Microsoft Word or PowerPoint files.
+  - Enabling **semantic search** for your AI Search service can improve the result of searching your data index and you're likely to receive higher quality responses and citations. However, enabling semantic search may increase the cost of the search service.
+
+- ### [Generate images with Azure OpenAI Service](https://learn.microsoft.com/en-us/training/modules/generate-images-azure-openai/)
+
+  - **DALL-E**: A neural network based model that can generate graphical data from natural language input.
+  - **Image Generation via REST API**
+    - **prompt** — _(Required)_  
+       A text description of the image you want the model to generate. The clearer and more detailed, the better the output.
+
+    - **n** — _(Required)_  
+       The number of images to generate.  
+      - For **DALL·E 3** → must be `1`.  
+      - For **DALL·E 2** → can be `1` or more.
+
+    - **size** — _(Required)_  
+       Determines the resolution of the output image.  
+      - **DALL·E 3**: `1024x1024`, `1792x1024`, `1024x1792`  
+      - **DALL·E 2**: `256x256`, `512x512`, `1024x1024`
+
+    - **quality** — _(Optional)_  
+       Controls the detail level of the image.  
+      - Options: `standard` (default) or `hd` (high definition, slower but more detailed).  
+
+    - **style** — _(Optional)_  
+       Controls the artistic style.  
+      - Options: `vivid` (more colorful, artistic) or `natural` (more realistic).  
+      - Defaults to `vivid` if not specified.
