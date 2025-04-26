@@ -8,9 +8,9 @@ Welcome to my personal collection of notes from certifications I've completed in
 
 Notes are organized by certification:
 
-- ✅ [Microsoft Certified: Azure Fundamentals (AZ-900)](.) (To be uploaded)
-- ✅ [Microsoft Certified: Azure AI Fundamentals (AI-900)](.) (To be uploaded)
-- [ ] [Microsoft Certified: Azure AI Engineer Associate (AI-102)](./AI-102)
+- [Microsoft Certified: Azure Fundamentals (AZ-900)](.) (To be uploaded)
+- [Microsoft Certified: Azure AI Fundamentals (AI-900)](.) (To be uploaded)
+- [Microsoft Certified: Azure AI Engineer Associate (AI-102)](./AI-102)
 - 📝 More coming soon...
 
 ---
