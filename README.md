@@ -11,6 +11,7 @@ Notes are organized by certification:
 - [Microsoft Certified: Azure Fundamentals (AZ-900)](.) (To be uploaded)
 - [Microsoft Certified: Azure AI Fundamentals (AI-900)](.) (To be uploaded)
 - [Microsoft Certified: Azure AI Engineer Associate (AI-102)](./AI-102)
+- [Microsoft Certified: Azure Data Fundamentals (DP-900)](./DP-900)
 - 📝 More coming soon...
 
 ---
