@@ -43,6 +43,9 @@ Demonstrate foundational knowledge of core data concepts related to Microsoft Az
   - **Data Stores**
     - **File Stores**: Store unstructured and semi-structured data (e.g., documents, media files).
     - **Databases**: Store structured data (and some semi-structured data in modern systems).
+  - **Data Formats**: CSV, TSV, JSON, XML, Binary Large Object (BLOB)
+  - BLOBs: Stores types stored as binary like images, audios, videos, and application-specific documents.
+  - **Parquet**: Columnar data format, it organizes data into row groups and uses column-wise storage, allowing fast reads and selective access to specific columns.
 
 - ### [Explore data roles and services](https://learn.microsoft.com/en-us/training/modules/explore-roles-responsibilities-world-of-data/)
 
