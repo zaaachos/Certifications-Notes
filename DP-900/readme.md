@@ -507,3 +507,133 @@ Demonstrate foundational knowledge of core data concepts related to Microsoft Az
       - Supports mobile apps via Cosmos DB SDKs and Xamarin
 
 ## [Microsoft Azure Data Fundamentals: Explore data analytics in Azure](https://learn.microsoft.com/en-us/training/paths/azure-data-fundamentals-explore-data-warehouse-analytics/)
+
+- ### [Explore fundamentals of large-scale analytics](https://learn.microsoft.com/en-us/training/modules/examine-components-of-modern-data-warehouse/)
+
+  - **Data Warehouse Architecture**
+    - **Data ingestion and processing**
+      - Sources: transactional DBs, files, streams
+      - ETL: transform before load
+      - ELT: load before transform
+      - Supports batch and real-time data
+      - Uses distributed systems for scalability
+
+    - **Analytical data store**
+      - Types: data warehouses, data lakes, lakehouses
+      - Stores large volumes optimized for queries
+
+    - **Analytical data model**
+      - Pre-aggregates data for reporting
+      - Often uses cubes (e.g., sales by product/region)
+      - Supports drill-up/down analysis
+
+    - **Data visualization**
+      - Reports, dashboards, charts
+      - Used by analysts and business users
+      - Enables trend/KPI analysis and self-service BI
+  - **Data Ingestion Pipelines**: orchestrate ETL processes for large-scale analytics
+   ![alt text](images/data_ing.png)
+  - **Types of Analytical Data Stores**
+
+    - **Data Warehouses**
+      - Relational DB optimized for analytics
+      - Uses fact and dimension tables (star schema)
+      - Aggregates data (e.g., sales by product, store)
+      - Best for structured, transactional data and SQL querying
+
+    - **Data Lakes**
+      - File store on distributed file systems (e.g., Spark, Hadoop)
+      - Supports structured, semi-structured, and unstructured data
+      - _Schema-on-read_ approach for data analysis (no schema enforcement on storage)
+      - Ideal for flexible data storage and large-scale analytics
+
+    - **Hybrid Approach (Data Lakehouse)**
+      - Combines data lakes and warehouses
+      - Raw data stored in data lake, queried as tables via SQL analytics
+      - Uses technologies like Delta Lake for schema enforcement and transactional consistency
+
+- ### [Explore fundamentals of real-time analytics](https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-stream-processing/)
+
+  - **Batch Processing**
+    - Processes large volumes of data collected over time
+    - Data is stored and processed together in a batch
+    - Examples: credit card billing, data collected for analysis
+    - **Advantages**:
+      - Can be scheduled during off-peak hours
+      - Efficient for large datasets
+    - **Disadvantages**:
+      - Time delay between data ingestion and results
+      - Issues with data errors can halt the entire process
+  - **Stream Processing**
+    - Data is processed in real-time as it arrives
+    - Suitable for continuous, dynamic data
+    - Examples: stock market monitoring, real-time gaming data
+    - **Advantages**:
+      - Instant processing, low latency (seconds or milliseconds)
+      - Ideal for time-critical operations (e.g., fire alarms)
+  - **Real-Time Analytics Services**
+    - **Azure Stream Analytics**: PaaS solution for defining streaming jobs, applying queries, and writing results to outputs
+    - **Spark Structured Streaming**: Open-source library for complex streaming on Apache Spark, used with Microsoft Fabric and Azure Databricks
+    - **Microsoft Fabric**: High-performance platform with features for real-time analytics, data engineering, data science, and more
+
+  - **Sources for Stream Processing**
+    - **Azure Event Hubs**: Manages event data queues, ensuring ordered, exactly-once processing
+    - **Azure IoT Hub**: Optimized for event data from IoT devices
+    - **Azure Data Lake Store Gen 2**: Scalable storage, also used for streaming data
+    - **Apache Kafka**: Open-source solution for data ingestion, often paired with Apache Spark
+
+  - **Sinks for Stream Processing**
+    - **Azure Event Hubs**: Queues processed data for further processing
+    - **Azure Data Lake Store Gen 2, OneLake, Azure Blob Storage**: Stores processed data as files
+    - **Azure SQL Database, Azure Databricks, Microsoft Fabric**: Stores processed data in tables for querying and analysis
+    - **Microsoft Power BI**: Visualizes real-time data for reports and dashboards
+  - **Apache Spark on Azure**
+    - Available in **Microsoft Fabric** and **Azure Databricks**
+    - Distributed framework for large-scale data analytics, supporting both **batch** and **stream** processing
+    - API for ingesting, processing, and outputting results from real-time data streams
+    - Built on **dataframes**, which are tables of data continuously updated by streaming data
+
+  - **Delta Lake**
+    - Open-source storage layer providing transactional consistency and schema enforcement for data lakes
+    - Supports both batch and stream processing
+    - Works with **Spark Structured Streaming** to unify batch and stream data under relational schemas
+    - Used for **SQL-based querying and analysis** in a data lake
+
+- ### [Explore fundamentals of data visualization](https://learn.microsoft.com/en-us/training/modules/explore-fundamentals-data-visualization/)
+
+  - **Microsoft Power BI**: Suite of tools in **Microsoft Fabric** for building interactive data visualizations. Supports **complex data modeling**, **interactive reporting**, and **secure sharing**
+  - **Core Concepts of Data Modeling**
+    - Analytical models structure data to support analysis through:
+      - **Measures**: Numeric values to analyze (e.g., revenue, quantity)
+      - **Dimensions**: Entities to aggregate by (e.g., product, customer, time)
+      - Models are often visualized as **cubes**, with intersections representing aggregated measures.
+
+  - **Tables and Schema**
+    - **Dimension tables**
+      - Represent entities (e.g., Product, Customer)
+      - Contain unique keys and attributes (e.g., names, categories, cities)
+      - Often include a **Time** dimension for time-based analysis
+    - **Fact tables**
+      - Store numeric measures for events (e.g., sales transactions)
+      - Related to one or more dimension tables
+
+  - **Schemas**
+    - **Star Schema**: A central fact table linked to multiple dimension tables
+    - **Snowflake Schema**: Dimension tables further normalized into related tables (e.g., Category table linked to Product table)
+    - Pre-aggregated measures across dimensions improve performance
+
+  - **Attribute Hierarchies**
+    - Enable drill-up/down in dimensions
+    - Examples:
+      - Product: Category → Product
+      - Customer: City → Customer
+      - Time: Year → Month → Day
+    - Pre-aggregated levels allow flexible, fast analysis
+
+  - **Data Modeling in Microsoft Power BI**
+    - Use **Power BI Desktop** to:
+      - Import data from multiple sources
+      - Define relationships between tables
+      - Create hierarchies, set data types, and format fields
+    - Analytical models help deliver rich, performant visual analysis
+   ![alt text](images/powerbi_datamodelpng.png)
