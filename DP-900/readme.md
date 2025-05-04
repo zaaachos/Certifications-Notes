@@ -388,4 +388,82 @@ Demonstrate foundational knowledge of core data concepts related to Microsoft Az
 
 ## [Microsoft Azure Data Fundamentals: Explore non-relational data in Azure](https://learn.microsoft.com/en-us/training/paths/azure-data-fundamentals-explore-non-relational-data/)
 
+- ### [Explore Azure Storage for non-relational data](https://learn.microsoft.com/en-us/training/modules/explore-provision-deploy-non-relational-data-services-azure/)
+
+  - **Azure Blob Storage**
+    ![alt text](images/blobs.png)
+
+    - **Purpose**: Store large amounts of unstructured data (blobs) in the cloud.
+    - **Containers**: Group related blobs, control access at container level.
+    - **Hierarchy**: Virtual folders using "/" in blob names, no folder-level operations.
+
+  - **Blob Types**
+
+    - **Block Blobs**:
+      - Set of blocks, up to 190.7 TiB.
+      - Best for large, infrequently changing binary objects.
+    - **Page Blobs**:
+      - 512-byte pages, up to 8 TB.
+      - Optimized for random read/write, used for VM disk storage.
+    - **Append Blobs**:
+      - Append-only, up to 195 GB.
+      - Supports appending data, not updating/deleting blocks.
+
+  - **Access Tiers**
+
+    - **Hot Tier**:
+      - High performance, frequent access.
+    - **Cool Tier**:
+      - Lower performance, infrequent access, reduced cost.
+    - **Archive Tier**:
+      - Lowest cost, high latency, for rarely accessed historical data.
+
+  - **Lifecycle Management**
+    - **Policies**: Automate moving blobs between tiers or deleting them based on age.
+  - **Azure Data Lake Storage Gen2**
+
+    - **Purpose**: Hierarchical storage for analytical data lakes, supporting structured, semi-structured, and unstructured data.
+    - **Integration**: Built into Azure Storage, leveraging blob storage scalability and cost-control with hierarchical file system features.
+    - **Compatibility**: Works with major analytics systems like Azure Databricks.
+    - **Microsoft Fabric**: Uses OneLake, based on Azure Data Lake Storage Gen2.
+    - **Key Features**
+
+      - _Hierarchical Namespace_: Enable during Azure Storage account creation or upgrade existing accounts (irreversible change).
+      - _Use Cases_: Suitable for big data analytical solutions processing large data volumes.
+
+  - **Microsoft OneLake in Fabric**
+    - Integrated with Microsoft Fabric.
+    - Central data lake on Azure Data Lake Gen2.
+    - **Benefits**
+      - _Unified Data Lake_: Single source for organizational data.
+      - _Collaboration_: Workspaces enable shared management.
+      - _Compatibility_: Uses ADLS Gen2 APIs, Delta Parquet format.
+      - _Easy Navigation_: Accessible via OneLake file explorer.
+  - **Azure Files**
+
+    - **Purpose**: Cloud-based file shares.
+    - **Benefits**: No hardware costs, scalable storage.
+    - **Key Points**
+      - _Capacity_: 100 TB/account, 1 TB max/file.
+      - _Connections_: Up to 2000/file.
+      - _Upload_: Azure portal, AzCopy, File Sync.
+    - **Tiers**
+      - _Standard_: HDD, cost-effective.
+      - _Premium_: SSD, higher performance.
+    - **Protocols**
+      - _SMB_: Windows, Linux, macOS.
+      - _NFS_: Network file system - Linux, macOS (premium only).
+
+  - **Azure Table Storage**
+
+    - **Type**: NoSQL storage for semi-structured data.
+    - **Structure**: Rows with key/value pairs, unique partition and row keys.
+    - Key Features
+
+      - _Data Organization_: No foreign keys or relationships; denormalized data.
+      - _Partitioning_: Groups rows by partition key, improves performance and scalability.
+      - _Access Efficiency_: Fast point and range queries using partition and row keys.
+
+- ### [Explore fundamentals of Azure Cosmos DB](https://learn.microsoft.com/en-us/training/modules/explore-non-relational-data-stores-azure/)
+
 ## [Microsoft Azure Data Fundamentals: Explore data analytics in Azure](https://learn.microsoft.com/en-us/training/paths/azure-data-fundamentals-explore-data-warehouse-analytics/)
