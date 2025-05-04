@@ -10,7 +10,7 @@ Demonstrate foundational knowledge of core data concepts related to Microsoft Az
 
   - **Types of Data**
 
-    1.  Structured Data
+    1. Structured Data
 
         - Adheres to a fixed schema.
         - Organized in tabular format (rows = entity instances, columns = attributes).
@@ -21,7 +21,7 @@ Demonstrate foundational knowledge of core data concepts related to Microsoft Az
               |------------|-------|----------------|
               | 1          | Joe   | <joe@email.com>  |
 
-    2.  Semi-Structured Data
+    2. Semi-Structured Data
 
         - Has some structure but allows variation between entities.
         - JSON is a common format.
@@ -38,7 +38,7 @@ Demonstrate foundational knowledge of core data concepts related to Microsoft Az
 
         - Common types: HTML, YAML, JSON, XML
 
-    3.  Unstructured Data
+    3. Unstructured Data
         - No predefined format or schema.
         - Examples: text documents, images, audio files, videos, binary data.
         - More complex to store, query, and analyze.
@@ -465,5 +465,45 @@ Demonstrate foundational knowledge of core data concepts related to Microsoft Az
       - _Access Efficiency_: Fast point and range queries using partition and row keys.
 
 - ### [Explore fundamentals of Azure Cosmos DB](https://learn.microsoft.com/en-us/training/modules/explore-non-relational-data-stores-azure/)
+
+  - **Azure Cosmos DB**
+   ![alt text](images/cosmosdb.png)
+
+    - Globally distributed, multi-model NoSQL database service
+    - Supports multiple APIs: SQL, MongoDB, Cassandra, Gremlin, Table
+    - Abstracts internal data structure for API flexibility
+
+    - **Key Features**
+
+      - Multi-API support enables use of familiar query languages
+      - Global distribution with optional multi-region writes
+      - Automatic data partitioning (up to 10 GB per partition)
+      - Built-in indexing for fast query performance
+      - Low-latency reads and writes
+      - Minimal administration (auto-managed indexing and scaling)
+
+  - **When to Use Cosmos DB**
+
+    - **IoT and Telematics**
+
+      - Handles large-scale, bursty data ingestion
+      - Real-time data processing with Azure Functions
+      - Supports analytics with Azure ML, Power BI, and Microsoft Fabric
+
+    - **Retail and Marketing**
+
+      - Used in e-commerce (e.g., Windows Store, Xbox Live)
+      - Ideal for catalog storage and event-sourced order processing
+
+    - **Gaming**
+
+      - Low-latency data access for in-game features (e.g., leaderboards)
+      - Supports massive concurrent users and traffic spikes
+      - Delivers personalized game content
+
+    - **Web and Mobile Applications**
+
+      - Powers social interactions, third-party integrations, personalized UX
+      - Supports mobile apps via Cosmos DB SDKs and Xamarin
 
 ## [Microsoft Azure Data Fundamentals: Explore data analytics in Azure](https://learn.microsoft.com/en-us/training/paths/azure-data-fundamentals-explore-data-warehouse-analytics/)
