@@ -202,7 +202,6 @@ Demonstrate foundational knowledge of core data concepts related to Amazon AWS d
   - Recognize the varying levels of responsibility based on the AWS service.  
   - Understand general security features in AWS and their appropriate application.  
 
-
 ---  
 
 ### AWS Shared Responsibility Model  
@@ -252,5 +251,65 @@ Demonstrate foundational knowledge of core data concepts related to Amazon AWS d
 
 - **Access Management:**  
   - Implement least-privileged access, granting users only the permissions they need.  
+
+---
+
+### AWS Access Management Capabilities:**  
+
+- **User and Identity Management:**  
+  - **Principle of Least Privilege**: Only grant users the access necessary to perform their tasks and nothing more.  
+  - **AWS IAM Features**: Control access to AWS accounts using IAM users, groups, roles, and policies.  
+
+- **AWS Account Basics:**  
+  - An AWS account is where services are provisioned, usage logged, and bills generated.  
+  - **Root User**: Has complete access to all resources. Important to secure and restrict its usage for daily tasks.  
+  - **Protecting Root User**: Use multi-factor authentication (MFA), secure credentials, rotate access keys/password, and configure an admin user in IAM Identity Center for daily tasks.  
+
+- **IAM Features:**  
+  - **IAM Users**: Have usernames, passwords, and access keys for programmatic access. Can enable MFA and enforce password complexity.  
+  - **IAM Groups**: Organize users to collectively manage permissions.  
+  - **IAM Roles**: Provide temporary credentials, useful for cross-account access and granting AWS services permissions.  
+
+- **Amazon Cognito:**  
+  - **Identity Pools**: Provide temporary AWS credentials for users authenticated via social media or guest users.  
+
+- **IAM Policies:**  
+  - **Managed vs Unmanaged**: Managed policies are created and maintained by AWS, while unmanaged policies are created by customers.  
+  - **IAM Policy Simulator**: Test and troubleshoot IAM and resource-based policies.  
+
+- **Access Policies for Amazon S3:**  
+  - **Bucket Policies**: Resource-based policies granting access permissions to other AWS accounts or IAM users.  
+  - **User Policies**: Allow an IAM user access to a bucket.  
+  - **MFA Delete**: Protects against unauthorized deletion by requiring MFA for delete operations.  
+
+---  
+
+### Components and Resources for Security Support
+
+- **Network Security Services:**  
+  - **Network Access Control Lists (NACLs)**:  
+    - Operate at the subnet level, controlling traffic traversing a subnet.  
+    - Stateless: Separate rules for inbound and outbound traffic, requiring explicit rules for both directions.  
+    - Do not involve intra-subnet traffic.  
+  
+  - **Security Groups**:  
+    - Operate at the resource level, associated with Elastic Network Interfaces.  
+    - Stateful: Automatically allows return traffic for inbound rules.  
+    - Can reference AWS resources, such as other security group IDs.  
+    - Implicit deny for any traffic not explicitly allowed; cannot explicitly deny traffic.  
+
+- **AWS Security Services:**  
+  - **AWS WAF**: Create rules to filter web traffic based on IP addresses, HTTP headers, and custom URLs, protecting against common attack patterns.  
+  - **AWS Trusted Advisor and Amazon Inspector**: Provide recommendations and assessments for security and best practices.  
+  - **Security Assessments**: Conduct security assessments and penetration testing without prior approval for certain AWS services.  
+
+- **Third-Party Solutions:**  
+  - **AWS Marketplace**: Find and deploy third-party software solutions in your AWS account.  
+
+- **Resources for Security Information:**  
+  - **AWS Knowledge Center**: Answers to common AWS questions.  
+  - **AWS Security Center**: Information related to AWS security.  
+  - **AWS Security Blogs and Forums**: Stay updated and find community discussions on security topics.  
+  - **AWS Documentation, Whitepapers, and Best Practices**: Deepen understanding of AWS security services and practices.  
 
 ---
