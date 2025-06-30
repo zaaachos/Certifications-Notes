@@ -313,3 +313,488 @@ Demonstrate foundational knowledge of core data concepts related to Amazon AWS d
   - **AWS Documentation, Whitepapers, and Best Practices**: Deepen understanding of AWS security services and practices.  
 
 ---
+
+## Domain 3: Cloud Technology and Services
+
+- **Focus Areas**:  
+  - **Deployment and Operations**: Examine deployment models and connectivity options available in AWS.  
+  - **Global Infrastructure**: Understand the components of AWS's global infrastructure, such as Regions, Availability Zones, and edge locations.  
+  - **Core Services**: Recognize the categories of AWS core services—Compute, Storage, Networking, and Database—and explore their subcategories.  
+  - **Advanced Services**: Learn about AI, machine learning, analytics, and other relevant services.  
+
+- **Understanding Service Categories**:  
+  - **Compute vs. Database**: Understand the distinction between running a database as a service versus on an EC2 instance, and the implications for performance, scalability, and management.  
+  - **Service Overlaps**: Be aware of overlaps and integration points between different services and categories.  
+
+- **Considerations**:  
+  - **Choosing Services**: Analyze why you would select one service over another based on requirements and use cases.  
+  - **Subcategories**: Explore subcategories within each major service category to understand specific offerings and functionalities.  
+
+---
+
+### AWS Deployment and Operations  
+
+### Methods of Access  
+
+- **AWS Management Console**: Graphical interface for managing AWS resources. Best for beginners or infrequent tasks.  
+- **AWS CLI**: Command Line Interface for scripting and automating tasks. Ideal for repetitive operations.  
+- **AWS SDKs**: Software Development Kits for integrating AWS services into applications using various programming languages.  
+- **Infrastructure as Code**: Tools like AWS CloudFormation allow the deployment of resources using code. Essential for repeatable and scalable infrastructure setups.  
+
+### Deployment Models  
+
+- **Public Cloud**: AWS offers resources accessible over the internet. Suitable for scalable and cost-effective solutions.  
+- **Private Cloud**: Dedicated resources on-premises, such as AWS Outposts, meeting cloud criteria but tailored for a specific organization.  
+- **Hybrid Cloud**: Combines public and private clouds, integrating on-premises resources with AWS. Useful for sensitive data and legacy systems.  
+- **Multi-Cloud**: Use of multiple cloud providers (e.g., AWS, Azure, Google Cloud) for redundancy and flexibility.  
+
+### Connectivity Options  
+
+- **Public Internet**: Basic and cost-effective way to connect to AWS services.  
+- **VPN (Virtual Private Network)**: Secure, encrypted connection between on-premises networks and AWS.  
+- **AWS Direct Connect**: Dedicated, private connection to AWS, offering high bandwidth and reliability.  
+
+### Considerations  
+
+- **Internet Gateway vs. NAT Gateway**: Internet Gateway allows public internet access for EC2 instances in a public subnet. NAT Gateway enables instances in a private subnet to access the internet without being publicly accessible.  
+
+## AWS Global Infrastructure  
+
+### Key Components  
+
+- **Regions**: Geographical areas hosting AWS data centers. Choose based on latency, legal requirements, and redundancy.  
+- **Availability Zones (AZs)**: Isolated locations within Regions, providing high availability and fault tolerance.  
+- **Edge Locations**: Points of presence for CloudFront and other AWS services, enhancing content delivery and reducing latency.  
+
+### Service Categories  
+
+- **Compute**: EC2, Lambda, ECS, etc. Understand differences in operational models and scalability.  
+- **Storage**: S3, EBS, Glacier, etc. Explore options for durability, performance, and cost.  
+- **Networking**: VPC, Direct Connect, Route 53, etc. Focus on connectivity, security, and routing.  
+- **Database**: RDS, DynamoDB, Aurora, etc. Evaluate managed services vs. self-managed on EC2.  
+
+### Advanced Services  
+
+- **AI and Machine Learning**: SageMaker, Rekognition, Comprehend, etc. Enable intelligent applications.  
+- **Analytics**: Redshift, Kinesis, Athena, etc. Efficient data processing and insights generation.  
+
+### Considerations for Choosing Services  
+
+- **Performance vs. Management**: Managed services often simplify management but may have higher costs or less flexibility compared to self-managed options.  
+- **Integration Points**: Understand overlaps and synergies between services, such as using Lambda with S3 for event-driven architectures.  
+
+---
+
+### AWS Global Infrastructure  
+
+### Key Components  
+
+1. **Regions**:
+   - **Definition**: Geographical areas with multiple Availability Zones (AZs).  
+   - **Features**: Fault-tolerant due to separation; data does not leave a Region unless specified.  
+   - **Use Cases**: Choose Regions based on compliance, latency, and proximity to users.  
+   - **Local Zones**: Extensions of Regions offering low-latency access to AWS services.  
+   - **Wavelength Zones**: Special zones in telecom carrier locations for ultra-low latency applications.  
+
+2. **Availability Zones (AZs)**:  
+   - **Definition**: Isolated data centers within Regions, each with redundant power and networking.  
+   - **Features**: High availability and fault tolerance by distributing across multiple AZs.  
+   - **Use Cases**: Deploy services across AZs for resilience against AZ-specific failures.  
+
+3. **Edge Locations**:  
+   - **Definition**: Points of presence for AWS services to cache content closer to users.  
+   - **Features**: Enhance content delivery speed and reduce latency via AWS CloudFront.  
+   - **Use Cases**: Ideal for applications requiring fast access to cached content, like media streaming.  
+
+### Resilience Levels  
+
+- **Globally Resilient Services**: Operate across multiple Regions. Examples: IAM, CloudFront, Route 53.  
+- **Regionally Resilient Services**: Operate within a Region, replicating data across AZs. Examples: EFS, AWS Batch.  
+- **Zonal Resilient Services**: Operate within a single AZ, vulnerable to AZ failures. Examples: EBS, EC2.  
+
+### Services Utilizing Infrastructure  
+
+- **Content Delivery**: CloudFront uses edge locations for caching static and dynamic content.  
+- **Global Networking**: AWS Global Accelerator uses edge locations to improve application performance without caching, benefiting TCP and UDP traffic.  
+
+### Exam Tips  
+
+- **Regions**: Consider compliance and latency when selecting Regions; study disaster recovery strategies using multiple Regions.  
+- **Availability Zones**: Understand service boundaries and failure points; study communication between AZs.  
+- **Edge Locations**: Know which services use edge locations and their benefits, such as low latency and improved content delivery.  
+
+### Considerations for Architecture  
+
+- **Compliance**: Determine how sovereign borders and laws affect data management in Regions.  
+- **Disaster Recovery**: Use Regions strategically to avoid catastrophic failures and ensure business continuity.  
+- **Service Boundaries**: Recognize which services are bound to specific AZs and how they communicate across AZs.
+
+---
+
+### AWS Compute Services  
+
+### Amazon EC2 (Elastic Compute Cloud)  
+
+- **Virtualization as a Service**: Provides virtual machines (instances) on AWS-managed physical servers (EC2 hosts).  
+- **Instance Types**:
+  - **General Purpose**: Balanced resources for default workloads.  
+  - **Compute Optimized**: High-performance computing needs.  
+  - **Memory Optimized**: Applications needing large memory.  
+  - **Accelerated Computing**: GPU and FPGA requirements.  
+  - **Storage Optimized**: High I/O performance for data-heavy applications.  
+  - **Burstable Instances**: Cost-effective for variable CPU loads with burst credits.  
+
+- **Host Types**:  
+  - **Shared Hosts**: Default, isolated instances shared among customers.  
+  - **Dedicated Hosts**: Entire host reserved for one customer.  
+
+- **Storage**:  
+  - **Instance Store**: Temporary storage tied to EC2 host.  
+  - **Amazon EBS**: Persistent storage volumes, AZ-specific.  
+
+- **Networking**:  
+  - **Elastic Network Interfaces (ENI)**: Connect EC2 instances to VPC subnets.  
+
+- **Customization**:  
+  - **Amazon Machine Images (AMIs)**: Pre-configured snapshots for EC2 instances, including security patches and software.  
+
+### Containers  
+
+- **Amazon ECS (Elastic Container Service)**: Managed container orchestration for Docker containers.  
+- **Amazon EKS (Elastic Kubernetes Service)**: Managed Kubernetes service running on EC2 instances.  
+- **Benefits**: Efficient resource utilization, less duplication, faster deployment.  
+
+### AWS Lambda  
+
+- **Function as a Service (FaaS)**: Executes code in response to events.  
+- **Serverless**: No infrastructure management, billed per execution duration.  
+- **Languages**: Supports multiple runtimes like Python, Java, Node.js.  
+
+### Auto Scaling and Load Balancing  
+
+- **Auto Scaling**: Automatically adjusts EC2 instance count based on demand.  
+- **Elastic Load Balancers (ELB)**:  
+  - **Classic Load Balancer**: Basic routing for EC2 instances.  
+  - **Application Load Balancer**: Layer 7 routing for HTTP/HTTPS.  
+  - **Network Load Balancer**: Layer 4 routing for high-performance TCP/UDP traffic.  
+  - **Gateway Load Balancer**: Integrates third-party appliances, simplifying deployments.  
+
+### Exam Tips  
+
+- **EC2 Instance Selection**: Match instance types to specific workload requirements.  
+- **Container vs. EC2**: Understand benefits of containers for resource efficiency.  
+- **Serverless Options**: Lambda for event-driven, cost-efficient compute needs.  
+- **Auto Scaling and ELB**: Use for high availability and fault tolerance.  
+
+---
+
+### AWS Database Services  
+
+### Amazon RDS (Relational Database Service)  
+
+- **Description**: Managed relational database service supporting MySQL, MariaDB, PostgreSQL, Oracle, SQL Server, and Amazon Aurora.  
+- **Features**:  
+  - **Instance Types**: Vary by database engine, size, and performance.  
+  - **Multi-AZ Deployments**: Provides high availability with automatic failover to a standby instance in another AZ.  
+  - **Read Replicas**: Asynchronous read-only replicas for performance and availability.  
+- **Use Cases**: Ideal for applications requiring a managed relational database without infrastructure management.  
+
+### Amazon Aurora  
+
+- **Description**: MySQL and PostgreSQL-compatible relational database with enhanced performance and availability.  
+- **Features**:  
+  - **Cluster Architecture**: Single primary instance with multiple read replicas.  
+  - **Shared Cluster Volume**: Provides faster provisioning and higher availability.  
+  - **Aurora Serverless**: Automatically scales database capacity based on demand.  
+  - **Global Databases**: Replicates data across Regions for disaster recovery and performance improvements.  
+
+### Amazon DynamoDB  
+
+- **Description**: Managed NoSQL database service, highly scalable and flexible.  
+- **Features**:  
+  - **Provisioned and On-Demand Capacity**: Flexible scaling options.  
+  - **Global Tables**: Multi-Region replication for global applications.  
+  - **DynamoDB Accelerator (DAX)**: In-memory caching for faster read performance.  
+
+### Amazon ElastiCache  
+
+- **Description**: Managed in-memory caching service supporting Redis and Memcached.  
+- **Features**:  
+  - **Performance Improvements**: Caches reads to enhance database performance.  
+  - **Session Storage**: Stores user session states.  
+
+### Amazon Redshift  
+
+- **Description**: Petabyte-scale data warehousing solution for analytics.  
+- **Features**:  
+  - **Columnar Storage**: Optimized for analytical queries.  
+  - **Redshift Spectrum**: Queries data directly from S3.  
+- **Use Cases**: Best for online analytical processing (OLAP).  
+
+### AWS Data Migration Tools  
+
+- **AWS Snow Family**: Physical devices (Snowcone, Snowball, Snowmobile) for migrating large data volumes.  
+  - **Snowball Edge**: Data migration and edge computing device.  
+- **AWS Database Migration Service (DMS)**: Facilitates database migrations with minimal downtime.  
+  - **Schema Conversion Tool**: Converts database schemas between different engines.  
+- **AWS DataSync**: Automates data transfer between on-premises storage and AWS.  
+
+### Exam Tips and Considerations  
+
+- **Managed vs. Self-Managed**: Understand the trade-offs in customization, management, and performance.  
+- **Service Use Cases**: Match services to scenarios (e.g., RDS for relational databases, DynamoDB for NoSQL, Redshift for analytics).  
+- **Replication and Availability**: Know the differences between synchronous and asynchronous replication, and multi-AZ vs. global setups.  
+- **Cost and Performance**: Evaluate how features like Aurora Serverless and DAX can optimize cost and performance.  
+
+---
+
+### AWS Networking Services and Access Control  
+
+#### Amazon VPC (Virtual Private Cloud)  
+
+- **Description**: A virtual data center in the cloud that provides complete control over networking environment within AWS.  
+- **Features**:  
+  - **Custom VPC**: User-configured, isolated, and private by default.  
+  - **Default VPC**: Automatically created by AWS upon account creation, with pre-configured settings.  
+  - **IP Addressing**: Choose IP address ranges, create subnets, configure route tables and network gateways.  
+  - **Security**: Multiple layers including network access control lists (ACLs) and security groups.  
+  - **Connectivity**: Connect VPCs to on-premises data centers for hybrid environments or other cloud platforms for multi-cloud setups.  
+- **Components**:  
+  - **VPC Router**: Manages traffic between subnets, high availability across Availability Zones.  
+  - **Internet Gateway**: Enables internet access, one per VPC, manages traffic between VPC, AWS public zone, and the internet.  
+  - **Network ACLs**: Stateless filters for traffic entering and leaving a subnet, require separate inbound and outbound rules.  
+  - **Security Groups**: Stateful filters attached to instances, automatically allow outbound traffic if inbound is permitted.  
+  - **NAT Gateway**: Provides outgoing internet access for private resources, prevents inbound internet traffic initiation.  
+
+#### Communication in Amazon VPC  
+
+- **VPC Peering**: Connects multiple VPCs for direct communication using private IPs, can span accounts and Regions.  
+- **VPC Endpoints**: Allow connections to AWS public services without internet access.  
+  - **Gateway Endpoints**: For services like S3 and DynamoDB.  
+  - **Interface Endpoints**: For other services, utilize DNS.  
+- **AWS PrivateLink**: Exposes applications to other VPCs without VPC peering or gateways, enhances security.  
+- **VPN Connection**: Creates encrypted virtual private connections over the internet between on-premises networks and AWS VPCs.  
+- **AWS Direct Connect**: Establishes dedicated physical connections between on-premises networks and AWS, offers higher bandwidth and lower latency.  
+
+#### Amazon Route 53  
+
+- **Description**: Managed DNS service for domain registration and hosting zones on nameservers.  
+- **Features**:  
+  - **Global Service**: Single database replicated across Regions for resilience.  
+  - **Functionality**: Translates human-readable domain names to IP addresses for service discovery.  
+  - **Routing Policies**: Failover, weighted, and latency routing to ensure high availability and resilience.  
+
+#### Edge Services  
+
+- **CloudFront**: Content delivery network for caching and speeding up access to data.  
+- **Global Accelerator**: Optimizes routing and speeds up global application access.  
+
+#### Exam Tips and Considerations  
+
+- **Networking Fundamentals**: Solid understanding of networking principles is crucial for AWS networking services.  
+- **VPC Management**: Know how Amazon VPCs, subnets, gateways, and security features work together to control access and optimize communication.  
+- **Connectivity Options**: Distinguish between VPN, Direct Connect, and Route 53 for different use cases in connecting VPCs to external environments.  
+- **Security Features**: Understand the difference between stateless and stateful security measures (network ACLs vs. security groups).  
+- **Service Integration**: Learn how PrivateLink, VPC peering, and endpoints enhance connectivity and security for AWS services.  
+
+---  
+
+### AWS Storage Services  
+
+#### Cloud Storage Overview  
+
+- **Description**: A cloud computing model that stores data through a provider who manages data storage as a service, offering agility, global scale, and durability with anytime, anywhere access.  
+- **Operation**: Purchased from third-party vendors in a pay-as-you-go model, managing capacity, security, and durability globally.  
+- **Benefits**:  
+  - No hardware or storage provisioning.  
+  - On-demand capacity, performance, and retention.  
+  - Storage lifecycle management for cost efficiency.  
+  - Pay only for used storage.  
+
+#### Types of Cloud Storage  
+
+1. **Object Storage (Amazon S3)**  
+   - **Description**: Global resilient service for storing and accessing data in AWS Regions.  
+   - **Features**:  
+     - Unlimited data storage capacity.  
+     - Data replication across Availability Zones.  
+     - Compliance with regional laws.  
+     - Globally unique bucket names.  
+     - Features like versioning to prevent accidental overwrite/deletion.  
+   - **Storage Classes**:  
+     - **Glacier Deep Archive**: Cost-effective for long-term archives with retrieval under 12 hours.  
+   - **Use Cases**: Ideal for storing large datasets, media files, backups.  
+
+2. **File Storage (Amazon EFS & FSx)**  
+   - **Amazon EFS**:  
+     - **Description**: Network-based file system for Linux instances.  
+     - **Features**: Mountable on multiple EC2 instances, scalable, self-healing.  
+   - **Amazon FSx**:  
+     - **FSx for Windows**: Managed Windows file system supporting SMB protocol.  
+     - **FSx for Lustre**: Parallel distributed file system for high-performance computing.  
+   - **Use Cases**: Shared file access, media stores, development environments.  
+
+3. **Block Storage (Amazon EBS)**  
+   - **Description**: Dedicated low-latency storage for each host, comparable to SAN.  
+   - **Features**:  
+     - Persistent storage separate from EC2 instance hardware.  
+     - Types include General Purpose SSD, Provisioned IOPS SSD, Throughput Optimized HDD, Cold HDD.  
+   - **Use Cases**: Ideal for databases, boot volumes for EC2 instances.  
+
+#### AWS Storage Gateway  
+
+- **Description**: Connects on-premises storage to AWS services, supporting migration and extending storage platforms.  
+- **Types**:  
+  - **File Gateway**: Stores files as objects in S3, local cache.  
+  - **Volume Gateway**: Provides block level access using iSCSI, supports stored and cached volumes.  
+  - **Tape Gateway**: Presents virtual tape library over iSCSI for backups.  
+- **Use Cases**: Data migration, hybrid storage solutions, backup integration.  
+
+#### Storage Backup and Recovery  
+
+- **Amazon S3**: Offers storage classes for cost-performance trade-offs.  
+- **AWS Backup**: Centralizes and automates data protection, meeting compliance requirements.  
+- **Features**:  
+  - Automated lifecycle management.  
+  - Archive vaults for compliance with legal/regulatory needs.  
+
+#### Exam Tips and Considerations  
+
+- **Understanding Services**: Know the differences and use cases for S3, EFS, FSx, EBS, and Storage Gateway.  
+- **Integration**: Consider how storage services interact and integrate within AWS architectures.  
+- **Compliance and Security**: Ensure data safety, security, and compliance with AWS storage solutions.  
+- **Cost Efficiency**: Optimize costs using appropriate storage classes and lifecycle management.  
+
+---  
+
+### AWS Artificial Intelligence, Machine Learning, and Analytics Services  
+
+#### AWS Machine Learning Services Levels  
+
+1. **Artificial Intelligence Services**  
+   - **Description**: Provides fully managed services to add ML capabilities using API calls.  
+   - **Use Cases**: Computer vision, speech, natural language, chatbots, predictions, recommendations.  
+   - **Services**:  
+     - **Amazon Translate**: Text translation and localization.  
+     - **Amazon Polly**: Text-to-speech conversion.  
+     - **Amazon Lex**: Building conversational chatbots.  
+     - **Amazon Rekognition**: Image and video analysis.  
+
+2. **Machine Learning Services**  
+   - **Description**: Managed services and resources for ML to developers, data scientists, researchers.  
+   - **Services**:  
+     - **Amazon SageMaker**: Build, train, deploy ML models at scale.  
+     - **Amazon CodeWhisperer**: ML-powered code generator for real-time code recommendations and security scanning.  
+
+3. **Machine Learning Frameworks and Infrastructure**  
+   - **Description**: Use open-source ML frameworks on optimized compute infrastructure.  
+   - **Frameworks**: TensorFlow, PyTorch, Apache MXNet.  
+   - **Infrastructure**: Deep Learning AMI, Deep Learning Containers, EC2 P3 and P3dn instances.  
+
+#### AWS Analytics Services  
+
+- **Amazon Athena**  
+  - **Description**: Interactive query service for analyzing data in S3 using SQL.  
+  - **Features**: Serverless, pay-per-query, supports various data formats (Parquet, XML, JSON, CSV).  
+
+- **Amazon Macie**  
+  - **Description**: Security service using ML to discover, classify, protect sensitive data in S3.  
+  - **Use Cases**: Protecting Personally Identifiable Information (PII).  
+
+- **Amazon Redshift**  
+  - **Description**: Petabyte-scale data warehousing for analytical workloads (OLAP).  
+  - **Features**: Cluster architecture, data unload/upload to S3, integrates with DynamoDB, DMS, Kinesis.  
+  - **Redshift Spectrum**: Query directly against S3 without loading data into Redshift.  
+
+- **Amazon Kinesis**  
+  - **Description**: Processes and analyzes streaming data at scale.  
+  - **Use Cases**: Real-time data ingestion for ML, analytics, and applications.  
+  - **Services**: Kinesis Data Firehose, Kinesis Data Analytics.  
+
+- **AWS Glue**  
+  - **Description**: Serverless data integration service for analytics and ML.  
+  - **Features**: ETL pipelines, cataloged data search/query with Athena, EMR, Redshift Spectrum.  
+
+- **Amazon QuickSight**  
+  - **Description**: Fast business intelligence service for interactive dashboards with ML insights.  
+
+- **Amazon EMR**  
+  - **Description**: Web service for big data processing using Apache Hadoop.  
+  - **Use Cases**: Machine learning, data transformations, bioinformatics, log analysis.  
+
+#### Exam Tips
+
+- **AI Services**: Easy integration with pre-trained models, no ML knowledge needed.  
+- **Machine Learning Services**: Focus on SageMaker for custom model building.  
+- **Analytics Services**: Athena for querying S3 data, Macie for PII protection.  
+- **Redshift vs. Athena**: Redshift for structured schema, Athena for flexible data formats.  
+- **Kinesis**: Key for real-time data processing.  
+- **EMR**: Supports Apache tools for data transformation and analytics.
+
+---
+
+### AWS Monitoring and Observability Services  
+
+- **Amazon CloudWatch**: Essential for monitoring AWS resources and applications. It collects and tracks metrics, sets alarms, and visualizes logs and metrics.  
+  - **CloudWatch Alarms**: Trigger actions based on defined thresholds in metrics.  
+  - **CloudWatch Dashboards**: Visualize metrics and logs for insights.  
+
+- **AWS X-Ray**: Helps with understanding the behavior of distributed applications, particularly microservices, by tracing requests.  
+
+- **Amazon EventBridge**: Facilitates automation and response to changes in the AWS environment by reacting to events in near real-time.  
+
+### AWS Application Integration Services  
+
+- **Amazon EventBridge**: Enables event-driven architectures, allowing decoupled microservices to communicate.  
+
+- **Amazon SNS (Simple Notification Service)**: Offers pub/sub messaging for sending notifications across distributed systems.  
+
+- **Amazon SQS (Simple Queue Service)**: Provides message queues for asynchronous communication between application components.  
+  - **Standard Queues**: High throughput, best-effort ordering, possible duplicate messages.  
+  - **FIFO Queues**: Strict ordering, no duplicates, suitable for tasks requiring exact sequence.  
+
+### AWS Business Application Services  
+
+- **Amazon Connect**: Cloud-based contact center for customer service via voice and chat.  
+
+- **Amazon SES (Simple Email Service)**: Scalable email sending service for applications, supports custom domains.  
+
+### AWS Customer Engagement Services  
+
+- **AWS Activate**: Offers resources and tools for startups.  
+
+- **AWS IQ**: Connects customers with AWS-certified experts.  
+
+- **AWS Managed Services**: Provides management of AWS infrastructure.  
+
+- **AWS Support**: Offers various support plans tailored to different business needs.  
+
+### AWS Developer Services  
+
+- **AWS AppConfig**: Manages application configuration.  
+- **AWS Cloud9**: IDE for writing, running, and debugging code.  
+- **AWS CloudShell**: Browser-based command line for managing AWS resources.  
+- **AWS CodeArtifact, CodeBuild, CodeCommit, CodeDeploy, CodePipeline, CodeStar**: Tools for DevOps practices.  
+- **AWS X-Ray**: Analyzes and debugs distributed applications.  
+
+### AWS End-User Computing Services  
+
+- **Amazon AppStream 2.0**: Streams desktop applications to users.  
+- **Amazon WorkSpaces**: Virtual desktop infrastructure (VDI) for Microsoft Windows and Linux desktops.  
+- **Amazon WorkSpaces Web**: Provides secure browser access to internal web resources.  
+
+### AWS Front-End Web and Mobile Services  
+
+- **AWS Amplify**: Streamlines building, deploying, and hosting full-stack applications.  
+- **AWS AppSync**: Provides a managed GraphQL service for data integration from various sources.  
+
+### AWS IoT Services  
+
+- **AWS IoT Core**: Connects, manages, and analyzes IoT devices securely.  
+- **AWS IoT Greengrass**: Extends AWS services to edge devices for local data processing and interaction.  
+
+### Exam Preparation Tips  
+
+- **Understand Use Cases**: Know which services are best suited for different scenarios and requirements.  
+- **Familiarize with Key Concepts**: Especially around decoupling, asynchronous messaging, scaling, monitoring, and automation.  
+- **Review Support Options**: Determine the appropriate AWS support plans based on business needs.  
