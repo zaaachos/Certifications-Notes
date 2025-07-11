@@ -251,8 +251,9 @@ Demonstrate foundational knowledge of core data concepts related to Amazon AWS d
 
 - **Access Management:**  
   - Implement least-privileged access, granting users only the permissions they need.
-**Exam Alert**:
-You may see use-cases asking you to select one of CloudWatch vs CloudTrail vs Config. Just remember this thumb rule -
+
+#### Exam Alert:
+You may see use-cases asking you to select one of CloudWatch vs CloudTrail vs Config. Just remember this thumb rule:
 - Think resource performance monitoring, events, and alerts; think CloudWatch.
 - Think account-specific activity and audit; think CloudTrail.
 - Think resource-specific change history, audit, and compliance; think Config.  
