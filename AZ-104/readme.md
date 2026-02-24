@@ -87,6 +87,56 @@ Configure and manage Azure services and resources. Manage virtual networks, stor
 
     - Prefer `az deployment group create` (newer command) over deprecated `az group deployment create`.
 
+- **Parameters & Outputs (Add flexibility)**
+  - **Parameters**
+    - Let you provide values at deployment time (CLI, portal, or parameter file).
+    - Common parameter properties: `type`, `defaultValue`, `allowedValues`, `minLength`, `maxLength`, `minValue`, `maxValue`, `metadata`, `secureValue`/`secureString`.
+    - Parameter `types`: `string`, `int`, `bool`, `array`, `object`, `secureString`, `secureObject`.
+    - Use `allowedValues` to restrict choices; use `defaultValue` for sensible defaults.
+    - Use `secureString` / `secureObject` for secrets (values are masked in portal/outputs).
+    - Parameter files: JSON files that supply parameter values for repeatable deployments.
+
+  - **Parameters - example**
+
+  ```json
+  "parameters": {
+  "storageAccountName": {
+      "type": "string",
+      "defaultValue": "learnstorage",
+      "metadata": { "description": "Name for the storage account" }
+  },
+  "skuName": {
+      "type": "string",
+      "allowedValues": ["Standard_LRS","Standard_GRS"],
+      "defaultValue": "Standard_LRS"
+  }
+  }
+  ```
+
+  - **Outputs**
+ ` - Return values from the deployment (resource IDs, connection strings, names) visible in portal/CLI after deployment.
+  - Useful for chaining deployments, passing values to linked templates, or CI/CD tasks.`
+
+  - **Outputs - example**
+
+  ```json
+  "outputs": {
+  "storageAccountId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+  }
+  }
+  ```
+
+  - **Passing parameters via Azure CLI**
+    - Single param: `--parameters storageAccountName=myname skuName=Standard_LRS`
+    - Parameter file: `--parameters @params.json` where `params.json` contains the `parameters` object.
+
+  - **Notes / Tips**
+    - Avoid exposing secrets in `outputs` — use Key Vault for sensitive values.
+    - Use variables/functions to centralize common expressions and reduce repetition.
+    - Validate templates locally with `az deployment group validate` before creating deployments.
+
   - **Complex deployments**
     - Break complex solutions into smaller, reusable templates and link them (linked or nested templates).
     - Store linked templates securely (e.g., with SAS tokens) and orchestrate from a main template or CI/CD.
@@ -95,27 +145,27 @@ Configure and manage Azure services and resources. Manage virtual networks, stor
     - Minimal example fields you will commonly use in a `resources` array (apiVersion, name, location, sku, kind, properties).
     ```json
     {
-        "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-        "contentVersion": "1.0.0.1",
-        "apiProfile": "",
-        "parameters": {},
-        "variables": {},
-        "functions": [],
-        "resources": [
-            {
-            "type": "Microsoft.Storage/storageAccounts",
-            "apiVersion": "2025-01-01",
-            "name": "learntemplatestorage123",
-            "location": "westus",
-            "sku": {
-                "name": "Standard_LRS"
-            },
-            "kind": "StorageV2",
-            "properties": {
-                "supportsHttpsTrafficOnly": true
-            }
-            }
-        ],
-        "outputs": {}
+      "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.1",
+      "apiProfile": "",
+      "parameters": {},
+      "variables": {},
+      "functions": [],
+      "resources": [
+        {
+          "type": "Microsoft.Storage/storageAccounts",
+          "apiVersion": "2025-01-01",
+          "name": "learntemplatestorage123",
+          "location": "westus",
+          "sku": {
+            "name": "Standard_LRS"
+          },
+          "kind": "StorageV2",
+          "properties": {
+            "supportsHttpsTrafficOnly": true
+          }
+        }
+      ],
+      "outputs": {}
     }
-```
+    ```
