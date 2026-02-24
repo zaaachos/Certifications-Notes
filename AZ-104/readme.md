@@ -169,3 +169,21 @@ Configure and manage Azure services and resources. Manage virtual networks, stor
       "outputs": {}
     }
     ```
+## [AZ-104: Manage identities and governance in Azure](https://learn.microsoft.com/en-us/training/paths/az-104-manage-identities-governance/)
+
+- ### [Understand Microsoft Entra ID](https://learn.microsoft.com/en-us/training/modules/understand-azure-active-directory/)
+
+
+- ### [Create, configure, and manage identities](https://learn.microsoft.com/en-us/training/modules/create-configure-manage-identities/)
+
+
+- ### [Describe the core architectural components of Azure](https://learn.microsoft.com/en-us/training/modules/describe-core-architectural-components-of-azure/)
+
+
+- ### [Azure Policy initiatives](https://learn.microsoft.com/en-us/training/modules/sovereignty-policy-initiatives/)
+
+
+- ### [Secure your Azure resources with Azure role-based access control (Azure RBAC)](https://learn.microsoft.com/en-us/training/modules/secure-azure-resources-with-rbac/)
+
+
+- ### [Allow users to reset their password with Microsoft Entra self-service password reset](https://learn.microsoft.com/en-us/training/modules/allow-users-reset-their-password/)
